@@ -109,15 +109,15 @@ const HeroSection = () => {
               Kunal Bisen
             </span>
           </h1>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-light mt-2 text-muted-foreground">
-            Web Developer
-          </h2>
+          
         </div>
 
         <div ref={subtitleRef} className="mb-10">
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Crafting digital experiences that inspire and engage through innovative design and cutting-edge technology.
-          </p>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">Passionate about crafting modern, responsive, and user-focused websites. With 4 years of experience, I blend creativity with technical expertise to deliver high-performance web solutions.
+
+Get Started
+
+        </p>
         </div>
 
         <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow">
