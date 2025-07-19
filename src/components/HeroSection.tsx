@@ -102,7 +102,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto -mt-20">
         <div ref={headlineRef} className="mb-6">
-          <h1 className="text-4xl lg:text-8xl leading-tight font-bold text-center md:text-5xl">
+          <h1 className="text-4xl lg:text-8xl leading-tight font-bold text-center md:text-6xl">
             Hi, I'm{' '}
             <span className="text-glow bg-gradient-primary bg-clip-text text-transparent">
               Kunal Bisen
@@ -111,7 +111,7 @@ const HeroSection = () => {
         </div>
 
         <div ref={subtitleRef} className="mb-10">
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed md:text-base">
             Passionate about crafting modern, responsive, and user-focused websites. With 4 years of experience, I blend creativity with technical expertise to deliver high-performance web solutions.
           </p>
         </div>
