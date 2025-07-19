@@ -103,7 +103,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <div ref={headlineRef} className="mb-6">
-          <h1 className="text-4xl lg:text-8xl leading-tight font-bold my-[23px] md:text-5xl">
+          <h1 className="text-4xl lg:text-8xl leading-tight font-bold my-[23px] text-center md:text-5xl">
             Hi, I'm{' '}
             <span className="text-glow bg-gradient-primary bg-clip-text text-transparent">
               Kunal Bisen
@@ -120,7 +120,7 @@ Get Started
         </p>
         </div>
 
-        <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow">
+        <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow text-indigo-50 bg-purple-800 hover:bg-purple-700">
           Hire Me
         </button>
       </div>
