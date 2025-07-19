@@ -1,13 +1,41 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from 'react';
+import LoadingScreen from '@/components/LoadingScreen';
+import Navigation from '@/components/Navigation';
+import HeroSection from '@/components/HeroSection';
+import AboutSection from '@/components/AboutSection';
+import ProjectsSection from '@/components/ProjectsSection';
+import ContactSection from '@/components/ContactSection';
+import Footer from '@/components/Footer';
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    // Ensure body has the proper classes
+    document.body.classList.add('font-inter');
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <>
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
+      
+      <div className={`transition-opacity duration-1000 ${isLoading ? 'opacity-0' : 'opacity-100'}`}>
+        <Navigation />
+        
+        <main>
+          <HeroSection />
+          <AboutSection />
+          <ProjectsSection />
+          <ContactSection />
+        </main>
+        
+        <Footer />
       </div>
-    </div>
+    </>
   );
 };
 
