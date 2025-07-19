@@ -1,14 +1,14 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
-
   useEffect(() => {
-    const tl = gsap.timeline({ delay: 4 }); // After loading screen
+    const tl = gsap.timeline({
+      delay: 4
+    }); // After loading screen
 
     // Set initial states
     gsap.set([headlineRef.current, subtitleRef.current, ctaRef.current], {
@@ -24,15 +24,13 @@ const HeroSection = () => {
       filter: "blur(0px)",
       duration: 1.2,
       ease: "power2.out"
-    })
-    .to(subtitleRef.current, {
+    }).to(subtitleRef.current, {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
       duration: 0.8,
       ease: "power2.out"
-    }, "-=0.6")
-    .to(ctaRef.current, {
+    }, "-=0.6").to(ctaRef.current, {
       opacity: 1,
       y: 0,
       filter: "blur(0px)",
@@ -58,7 +56,6 @@ const HeroSection = () => {
         ease: "power2.out"
       });
     };
-
     const handleCTALeave = () => {
       gsap.to(ctaRef.current, {
         scale: 1,
@@ -66,13 +63,11 @@ const HeroSection = () => {
         ease: "power2.out"
       });
     };
-
     const cta = ctaRef.current;
     if (cta) {
       cta.addEventListener('mouseenter', handleCTAHover);
       cta.addEventListener('mouseleave', handleCTALeave);
     }
-
     return () => {
       if (cta) {
         cta.removeEventListener('mouseenter', handleCTAHover);
@@ -80,25 +75,18 @@ const HeroSection = () => {
       }
     };
   }, []);
-
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  return (
-    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+  return <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Spline 3D Background */}
       <div className="absolute inset-0 w-full h-full">
-        <iframe 
-          src='https://my.spline.design/claritystream-HkGLxmDP1dzpFaitRKfK0TxG/' 
-          frameBorder='0' 
-          width='100%' 
-          height='100%'
-          className="absolute inset-0"
-        />
+        <iframe src='https://my.spline.design/claritystream-HkGLxmDP1dzpFaitRKfK0TxG/' frameBorder='0' width='100%' height='100%' className="absolute inset-0" />
       </div>
 
       {/* Overlay for content readability */}
@@ -115,7 +103,7 @@ const HeroSection = () => {
       {/* Content */}
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <div ref={headlineRef} className="mb-6">
-          <h1 className="text-4xl md:text-7xl lg:text-8xl font-light leading-tight">
+          <h1 className="text-4xl lg:text-8xl leading-tight font-bold my-[23px] md:text-5xl">
             Hi, I'm{' '}
             <span className="text-glow bg-gradient-primary bg-clip-text text-transparent">
               Kunal Bisen
@@ -132,11 +120,7 @@ const HeroSection = () => {
           </p>
         </div>
 
-        <button
-          ref={ctaRef}
-          onClick={scrollToContact}
-          className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow"
-        >
+        <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow">
           Hire Me
         </button>
       </div>
@@ -147,8 +131,6 @@ const HeroSection = () => {
           <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default HeroSection;
