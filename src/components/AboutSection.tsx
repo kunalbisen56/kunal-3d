@@ -133,7 +133,7 @@ const AboutSection = () => {
               <div className="absolute inset-0 rounded-full bg-gradient-primary p-1 glow-primary">
                 <div className="w-full h-full rounded-full overflow-hidden bg-background">
                   <img
-                    src="/lovable-uploads/641cc34f-8d43-488b-9c06-a9b1fc9cdd18.png"
+                    src="/kunal-profile.jpg"
                     alt="Kunal Bisen"
                     className="w-full h-full object-cover"
                   />

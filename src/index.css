@@ -146,6 +146,16 @@
     background: var(--gradient-glow);
     box-shadow: var(--shadow-neon);
   }
+  
+  /* AI Powered text styling */
+  .ai-powered-text {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 0 10px hsl(var(--primary-glow) / 0.5);
+    animation: subtleGlow 3s ease-in-out infinite;
+  }
 }
 
 @layer utilities {
@@ -167,6 +177,15 @@
   @keyframes shimmer {
     0% { transform: translateX(-100%); }
     100% { transform: translateX(100%); }
+  }
+  
+  @keyframes subtleGlow {
+    0%, 100% { 
+      filter: brightness(1);
+    }
+    50% { 
+      filter: brightness(1.2);
+    }
   }
   
   /* Blur utilities */

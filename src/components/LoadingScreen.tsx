@@ -72,7 +72,10 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     >
       <div className="text-center">
         <div ref={textRef} className="mb-8">
-          <h1 className="text-6xl md:text-8xl font-bold text-glow mb-2">
+          <p className="text-primary text-lg tracking-widest mb-3 font-light ai-powered-text">
+            AI POWERED
+          </p>
+          <h1 className="text-4xl md:text-6xl font-bold text-glow mb-2">
             Kunal
           </h1>
           <p className="text-accent text-xl tracking-wider mb-4 font-medium">
