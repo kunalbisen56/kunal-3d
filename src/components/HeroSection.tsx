@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import ThreeScene from './ThreeScene';
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
@@ -84,10 +85,8 @@ const HeroSection = () => {
     }
   };
   return <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Spline 3D Background */}
-      <div className="absolute inset-0 w-full h-full">
-        <iframe src='https://my.spline.design/claritystream-HkGLxmDP1dzpFaitRKfK0TxG/' frameBorder='0' width='100%' height='100%' className="absolute inset-0" />
-      </div>
+      {/* Three.js 3D Background */}
+      <ThreeScene />
 
       {/* Overlay for content readability */}
       <div className="absolute inset-0 bg-background/20"></div>
