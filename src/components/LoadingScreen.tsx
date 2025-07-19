@@ -9,9 +9,11 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const progressRef = useRef<HTMLDivElement>(null);
   const preloaderRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const percentageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline();
+    let percentage = { value: 1 };
 
     // Initial setup
     gsap.set([progressRef.current, textRef.current], { opacity: 0, y: 30 });
@@ -29,10 +31,16 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       duration: 0.5,
       ease: "power2.out"
     }, "-=0.3")
-    .to(progressRef.current?.querySelector('.progress-fill'), {
+    .to([progressRef.current?.querySelector('.progress-fill'), percentage], {
       width: "100%",
+      value: 100,
       duration: 2.5,
-      ease: "power2.out"
+      ease: "power2.out",
+      onUpdate: () => {
+        if (percentageRef.current) {
+          percentageRef.current.textContent = `${Math.round(percentage.value)}%`;
+        }
+      }
     })
     .to([textRef.current, progressRef.current], {
       opacity: 0,
@@ -61,7 +69,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     >
       <div className="text-center">
         <div ref={textRef} className="mb-8">
-          <h1 className="text-6xl md:text-8xl font-light text-glow mb-4">
+          <h1 className="text-6xl md:text-8xl font-bold text-glow mb-4">
             Kunal
           </h1>
           <p className="text-muted-foreground text-lg tracking-wider">
@@ -73,8 +81,13 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
           <div className="w-full h-1 bg-muted rounded-full overflow-hidden">
             <div className="progress-fill h-full w-0 progress-bar rounded-full"></div>
           </div>
-          <div className="mt-4 text-sm text-muted-foreground tracking-widest">
-            INITIALIZING PORTFOLIO
+          <div className="mt-4 flex justify-between items-center">
+            <div className="text-sm text-muted-foreground tracking-widest">
+              INITIALIZING PORTFOLIO
+            </div>
+            <div ref={percentageRef} className="text-sm text-primary font-medium">
+              1%
+            </div>
           </div>
         </div>
       </div>
