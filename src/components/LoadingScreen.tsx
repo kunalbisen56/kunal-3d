@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 
 interface LoadingScreenProps {
@@ -9,12 +9,22 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
   const progressRef = useRef<HTMLDivElement>(null);
   const preloaderRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const [percentage, setPercentage] = useState(0);
 
   useEffect(() => {
     const tl = gsap.timeline();
 
     // Initial setup
     gsap.set([progressRef.current, textRef.current], { opacity: 0, y: 30 });
+
+    // Percentage counter animation
+    const percentageAnimation = gsap.to({}, {
+      duration: 2.5,
+      onUpdate: function() {
+        const progress = this.progress();
+        setPercentage(Math.round(progress * 100));
+      }
+    });
 
     // Animation sequence
     tl.to([textRef.current], {
@@ -29,11 +39,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
       duration: 0.5,
       ease: "power2.out"
     }, "-=0.3")
+    .add(percentageAnimation, "-=0.2")
     .to(progressRef.current?.querySelector('.progress-fill'), {
       width: "100%",
       duration: 2.5,
       ease: "power2.out"
-    })
+    }, "-=2.5")
     .to([textRef.current, progressRef.current], {
       opacity: 0,
       y: -30,
@@ -61,9 +72,12 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
     >
       <div className="text-center">
         <div ref={textRef} className="mb-8">
-          <h1 className="text-6xl md:text-8xl font-light text-glow mb-4">
+          <h1 className="text-6xl md:text-8xl font-bold text-glow mb-2">
             Kunal
           </h1>
+          <p className="text-accent text-xl tracking-wider mb-4 font-medium">
+            Website Developer
+          </p>
           <p className="text-muted-foreground text-lg tracking-wider">
             Loading Experience...
           </p>
@@ -74,7 +88,7 @@ const LoadingScreen = ({ onComplete }: LoadingScreenProps) => {
             <div className="progress-fill h-full w-0 progress-bar rounded-full"></div>
           </div>
           <div className="mt-4 text-sm text-muted-foreground tracking-widest">
-            INITIALIZING PORTFOLIO
+            {percentage}% - INITIALIZING PORTFOLIO
           </div>
         </div>
       </div>
