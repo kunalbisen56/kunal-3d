@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useToast } from '@/hooks/use-toast';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ContactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const { toast } = useToast();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -94,32 +96,30 @@ const ContactSection = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Animate submit button
+    // Simple submit button animation
     gsap.to('.submit-btn', {
       scale: 0.95,
       duration: 0.1,
       yoyo: true,
       repeat: 1,
-      ease: "power2.inOut",
-      onComplete: () => {
-        // Add success animation here
-        gsap.to('.submit-btn', {
-          backgroundColor: 'hsl(var(--secondary))',
-          duration: 0.3,
-          onComplete: () => {
-            setTimeout(() => {
-              gsap.to('.submit-btn', {
-                backgroundColor: 'transparent',
-                duration: 0.3
-              });
-            }, 2000);
-          }
-        });
-      }
+      ease: "power2.inOut"
+    });
+
+    // Show success toast
+    toast({
+      title: "Message Sent!",
+      description: "Thank you for your message. I'll get back to you soon!",
+    });
+
+    // Reset form
+    setFormData({
+      name: '',
+      email: '',
+      profession: '',
+      message: ''
     });
 
     console.log('Form submitted:', formData);
-    // Add your form submission logic here
   };
 
   return (
