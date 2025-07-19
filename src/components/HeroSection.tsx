@@ -101,7 +101,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto -mt-20">
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <div ref={headlineRef} className="mb-6">
           <h1 className="text-4xl lg:text-8xl leading-tight font-bold my-[23px] text-center md:text-5xl">
             Hi, I'm{' '}
@@ -109,12 +109,15 @@ const HeroSection = () => {
               Kunal Bisen
             </span>
           </h1>
+          
         </div>
 
         <div ref={subtitleRef} className="mb-10">
-          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Passionate about crafting modern, responsive, and user-focused websites. With 4 years of experience, I blend creativity with technical expertise to deliver high-performance web solutions.
-          </p>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">Passionate about crafting modern, responsive, and user-focused websites. With 4 years of experience, I blend creativity with technical expertise to deliver high-performance web solutions.
+
+Get Started
+
+        </p>
         </div>
 
         <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow text-indigo-50 bg-purple-800 hover:bg-purple-700">
