@@ -66,42 +66,42 @@ const PortfolioSection = () => {
       id: 1,
       title: "E-Commerce Platform",
       description: "Modern online stores with secure payment gateways, inventory management, and user-friendly shopping experiences.",
-      image: "/public/lovable-uploads/2d970417-e7ee-4d55-a1af-9ea50af0b985.png",
+      image: "/src/assets/ecommerce-portfolio-new.jpg",
       link: "#"
     },
     {
       id: 2,
       title: "Business Websites",
       description: "Professional corporate websites that establish credibility and showcase your brand with elegant design.",
-      image: "/public/lovable-uploads/4a7a275c-6a44-4273-be59-450a84e74878.png",
+      image: "/src/assets/business-portfolio-new.jpg",
       link: "#"
     },
     {
       id: 3,
       title: "Portfolio Websites",
       description: "Creative portfolio sites that beautifully showcase your work and help you stand out in your industry.",
-      image: "/public/lovable-uploads/641cc34f-8d43-488b-9c06-a9b1fc9cdd18.png",
+      image: "/src/assets/portfolio-portfolio-new.jpg",
       link: "#"
     },
     {
       id: 4,
       title: "Blog or Magazine Websites",
       description: "Content-rich platforms with intuitive navigation, SEO optimization, and engaging reading experiences.",
-      image: "/public/lovable-uploads/b95a0c22-b036-42fa-aac5-34061be6ab53.png",
+      image: "/src/assets/blog-portfolio-new.jpg",
       link: "#"
     },
     {
       id: 5,
       title: "Education Websites",
       description: "Interactive learning platforms with course management, student portals, and educational content delivery.",
-      image: "/public/lovable-uploads/d1c1a36d-1dec-4c67-90a7-2ac8512ca585.png",
+      image: "/src/assets/education-portfolio-new.jpg",
       link: "#"
     },
     {
       id: 6,
       title: "Web Applications / SaaS Websites",
       description: "Scalable software solutions with modern UI/UX, real-time features, and robust backend systems.",
-      image: "/public/lovable-uploads/d4b11556-3d0e-4b89-89a9-c09a4145e69a.png",
+      image: "/src/assets/saas-portfolio-new.jpg",
       link: "#"
     }
   ];
