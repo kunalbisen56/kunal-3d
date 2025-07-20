@@ -120,10 +120,10 @@ const ContactSection = () => {
   return <section ref={sectionRef} id="contact" className="py-20 px-6">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl mb-4 text-glow font-bold text-[#7421ff] md:text-6xl">
+          <h2 className="text-4xl mb-4 text-glow font-medium text-[#945df1] md:text-6xl">
             Let's Work Together
           </h2>
-          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto mb-6"></div>
+          <div className="w-20 h-1 bg-gradient-primary rounded-full mx-auto mb-6 bg-white"></div>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
             Ready to bring your project to life? Get in touch and let's create something amazing together.
           </p>
