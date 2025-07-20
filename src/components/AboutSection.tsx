@@ -157,8 +157,7 @@ const AboutSection = () => {
             </div>
 
             <div className="space-y-6 text-muted-foreground leading-relaxed">
-              <p className="text-lg">Passionate Web Developer with 4 Years of Experience
-I'm a passionate web developer with expertise in creating modern, responsive, and user-friendly digital experiences. My journey in web development spans over several years, during which I've honed my skills in both front-end technologies and design principles.</p>
+              <p className="text-lg">I am a results-driven website developer with a passion for creating modern, responsive, and user-focused web experiences. Over the past 4 years, I have honed my skills in designing and developing websites that not only look great but also perform exceptionally well.</p>
               <p className="text-lg">
                 I specialize in crafting pixel-perfect websites that not only look 
                 stunning but also deliver exceptional performance and user experience. 
