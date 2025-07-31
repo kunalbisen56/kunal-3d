@@ -111,7 +111,7 @@ const ContactSection = () => {
 
     try {
       // Get backend URL from environment variables
-      const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
       
       if (!backendUrl) {
         throw new Error('Backend URL not configured');
