@@ -118,6 +118,14 @@ const AboutSection = () => {
     };
   }, []);
 
+  // Function to scroll to contact section
+  const scrollToContact = () => {
+    const element = document.querySelector('#contact');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const skills = [
     {
       name: 'HTML5',
@@ -162,16 +170,6 @@ const AboutSection = () => {
       )
     },
     {
-      name: 'Node.js',
-      logo: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8">
-          <path fill="#8CC84B" d="M12 1.85c-.27 0-.55.07-.78.2l-7.44 4.3c-.48.28-.78.8-.78 1.36v8.58c0 .56.3 1.08.78 1.36l7.44 4.3c.48.28 1.08.28 1.56 0l7.44-4.3c.48-.28.78-.8.78-1.36V7.71c0-.56-.3-1.08-.78-1.36l-7.44-4.3c-.23-.13-.51-.2-.78-.2z"/>
-          <path fill="#fff" d="M12 22.81c-.2 0-.39-.05-.56-.16l-1.78-1.06c-.27-.15-.14-.21-.05-.24.36-.13.44-.16.83-.38a.4.4 0 0 1 .38.03l1.37.81c.05.03.12.03.16 0l5.33-3.08c.05-.03.08-.09.08-.15V9.71c0-.06-.03-.12-.08-.15L12.34 6.48c-.05-.03-.12-.03-.16 0L6.84 9.56c-.05.03-.08.09-.08.15v6.17c0 .06.03.12.08.15l1.46.84c.79.4 1.27-.07 1.27-.52V10.2c0-.09.07-.16.16-.16h.69c.09 0 .16.07.16.16v6c0 1.04-.57 1.64-1.55 1.64-.3 0-.54 0-1.21-.33l-1.4-.8A1.32 1.32 0 0 1 4.75 15.7V9.71c0-.6.32-1.15.83-1.46L10.91 4.17c.5-.29 1.17-.29 1.67 0l5.33 3.08c.51.31.83.86.83 1.46v6c0 .6-.32 1.15-.83 1.46l-5.33 3.08c-.17.11-.36.16-.58.16z"/>
-          <path fill="#8CC84B" d="M14.19 13.79c0-1.19-.72-1.51-2.26-1.73-1.58-.23-1.74-.35-1.74-.76 0-.34.14-.8.86-.8.65 0 .89.14 1.01.58.02.08.08.13.16.13h.73c.05 0 .09-.02.12-.05.03-.04.05-.09.04-.14-.06-.86-.56-1.26-1.65-1.26-1.18 0-1.9.5-1.9 1.33 0 1.18.92 1.51 2.22 1.66 1.55.18 1.78.44 1.78.83 0 .64-.51.91-1.18.91-.85 0-1.17-.22-1.24-.65-.02-.08-.08-.14-.16-.14h-.73c-.09 0-.16.07-.16.16 0 .92.5 2.02 2.29 2.02 1.39 0 2.1-.55 2.1-1.5z"/>
-        </svg>
-      )
-    },
-    {
       name: 'WordPress',
       logo: (
         <svg viewBox="0 0 24 24" className="w-8 h-8">
@@ -186,14 +184,6 @@ const AboutSection = () => {
       logo: (
         <svg viewBox="0 0 24 24" className="w-8 h-8">
           <path fill="#ff7262" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.94-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-        </svg>
-      )
-    },
-    {
-      name: 'GSAP',
-      logo: (
-        <svg viewBox="0 0 24 24" className="w-8 h-8">
-          <path fill="#88ce02" d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.568 17.568c-.288.288-.576.432-.864.432s-.576-.144-.864-.432L12 13.728l-3.84 3.84c-.288.288-.576.432-.864.432s-.576-.144-.864-.432c-.288-.288-.432-.576-.432-.864s.144-.576.432-.864L10.272 12 6.432 8.16c-.288-.288-.432-.576-.432-.864s.144-.576.432-.864c.288-.288.576-.432.864-.432s.576.144.864.432L12 10.272l3.84-3.84c.288-.288.576-.432.864-.432s.576.144.864.432c.288.288.432.576.432.864s-.144.576-.432.864L13.728 12l3.84 3.84c.288.288.432.576.432.864s-.144.576-.432.864z"/>
         </svg>
       )
     }
@@ -212,16 +202,17 @@ const AboutSection = () => {
                 </div>
               </div>
               
-              {/* Experience Badge - Bottom Right - Updated */}
-              <div 
+              {/* Clickable Experience Badge - Bottom Right */}
+              <button 
                 ref={badgeRef}
-                className="absolute -bottom-2 -right-2 bg-gradient-primary text-white px-3 py-2 rounded-full text-sm font-medium shadow-lg border-2 border-background backdrop-blur-sm"
+                onClick={scrollToContact}
+                className="absolute -bottom-2 -right-2 bg-gradient-primary text-white px-3 py-2 rounded-full text-sm font-medium shadow-lg border-2 border-background backdrop-blur-sm hover:scale-105 transition-transform duration-300 cursor-pointer"
               >
                 <div className="text-center">
                   <div className="whitespace-nowrap font-semibold">4+ Years</div>
                   <div className="text-xs whitespace-nowrap opacity-90">Experience</div>
                 </div>
-              </div>
+              </button>
               
               {/* Floating decorative elements */}
               <div className="absolute -top-4 -right-4 w-8 h-8 bg-secondary-glow rounded-full blur-sm float"></div>
@@ -252,7 +243,7 @@ const AboutSection = () => {
               <h3 className="text-2xl font-light mb-6 text-foreground">
                 Skills & Technologies
               </h3>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
                 {skills.map((skill, index) => (
                   <div 
                     key={skill.name} 

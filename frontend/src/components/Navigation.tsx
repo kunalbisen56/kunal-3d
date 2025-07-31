@@ -57,18 +57,18 @@ const Navigation = () => {
       {/* Desktop Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-40 p-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="nav-item flex items-center space-x-3">
+          <div className="nav-item flex items-center space-x-4">
             <a 
               href="#hero" 
-              className="cursor-pointer flex items-center space-x-3"
+              className="cursor-pointer flex items-center space-x-4"
               onClick={() => scrollToSection('#hero')}
             >
-              {/* New Logo with Rotation Animation */}
+              {/* Enlarged Logo with Rotation Animation */}
               <img 
                 ref={logoRef}
                 src="https://i.postimg.cc/qqHB65xn/20250731-160737-1.png" 
                 alt="Kunal Bisen Logo" 
-                className="w-10 h-10 object-contain"
+                className="w-14 h-14 object-contain"
               />
               {/* Kunal Bisen Text */}
               <span className="text-xl font-light text-glow">
