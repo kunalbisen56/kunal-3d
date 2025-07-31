@@ -34,20 +34,15 @@ const Navigation = () => {
     { name: 'Home', href: '#hero' },
     { name: 'About', href: '#about' },
     { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Services', href: '/services' },
+    { name: 'Services', href: '#services' },
     { name: 'Contact', href: '#contact' }
   ];
 
   const scrollToSection = (href: string) => {
-    if (href.startsWith('/')) {
-      // Navigation to different page
-      window.location.href = href;
-    } else {
-      // Scroll to section on current page
-      const element = document.querySelector(href);
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
+    // All navigation now scrolls to sections on the same page
+    const element = document.querySelector(href);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
     setIsMenuOpen(false);
   };
