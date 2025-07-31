@@ -46,7 +46,7 @@ const Navigation = () => {
       {/* Desktop Navigation */}
       <nav className="fixed top-0 left-0 right-0 z-40 p-6">
         <div className="max-w-7xl mx-auto flex justify-between items-center">
-          <div className="nav-item">
+          <div className="nav-item flex items-center space-x-3">
             <a 
               href="#hero" 
               className="text-2xl font-light text-glow cursor-pointer"
@@ -54,6 +54,9 @@ const Navigation = () => {
             >
               KB
             </a>
+            <span className="text-lg font-light text-muted-foreground hidden sm:block">
+              Kunal Bisen
+            </span>
           </div>
           
           {/* Desktop Menu */}
