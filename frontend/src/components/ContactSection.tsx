@@ -2,19 +2,23 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useToast } from '@/hooks/use-toast';
+
 gsap.registerPlugin(ScrollTrigger);
+
 const ContactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
-  const {
-    toast
-  } = useToast();
+  const { toast } = useToast();
+  
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     profession: '',
     message: ''
   });
+  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
@@ -84,16 +88,19 @@ const ContactSection = () => {
       }
     });
   }, []);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
 
-    // Simple submit button animation
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+
+    // Submit button animation
     gsap.to('.submit-btn', {
       scale: 0.95,
       duration: 0.1,
@@ -102,20 +109,91 @@ const ContactSection = () => {
       ease: "power2.inOut"
     });
 
-    // Show success toast
-    toast({
-      title: "Message Sent!",
-      description: "Thank you for your message. I'll get back to you soon!"
-    });
+    try {
+      // Get backend URL from environment variables
+      const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+      
+      if (!backendUrl) {
+        throw new Error('Backend URL not configured');
+      }
 
-    // Reset form
-    setFormData({
-      name: '',
-      email: '',
-      profession: '',
-      message: ''
-    });
-    console.log('Form submitted:', formData);
+      // Submit form data to backend API
+      const response = await fetch(`${backendUrl}/api/contact`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          profession: formData.profession || null,
+          message: formData.message
+        }),
+      });
+
+      const result = await response.json();
+
+      if (response.ok && result.success) {
+        // Show success toast
+        toast({
+          title: "Message Sent Successfully!",
+          description: result.message || "Thank you for your message. I'll get back to you soon!",
+        });
+
+        // Reset form
+        setFormData({
+          name: '',
+          email: '',
+          profession: '',
+          message: ''
+        });
+
+        // Success animation
+        gsap.to('.submit-btn', {
+          backgroundColor: '#10b981',
+          duration: 0.3,
+          ease: "power2.out"
+        });
+
+        setTimeout(() => {
+          gsap.to('.submit-btn', {
+            backgroundColor: 'original',
+            duration: 0.3,
+            ease: "power2.out"
+          });
+        }, 2000);
+
+      } else {
+        throw new Error(result.message || 'Failed to send message');
+      }
+
+    } catch (error) {
+      console.error('Error submitting contact form:', error);
+      
+      // Show error toast
+      toast({
+        title: "Error Sending Message",
+        description: error instanceof Error ? error.message : "Something went wrong. Please try again later.",
+        variant: "destructive"
+      });
+
+      // Error animation
+      gsap.to('.submit-btn', {
+        backgroundColor: '#ef4444',
+        duration: 0.3,
+        ease: "power2.out"
+      });
+
+      setTimeout(() => {
+        gsap.to('.submit-btn', {
+          backgroundColor: 'original',
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }, 2000);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return <section ref={sectionRef} id="contact" className="py-20 px-6">
       <div className="max-w-4xl mx-auto">
