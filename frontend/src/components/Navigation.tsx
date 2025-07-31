@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const logoRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     // Initial navigation animation
@@ -17,6 +18,16 @@ const Navigation = () => {
         ease: "power2.out"
       }
     );
+
+    // Logo rotation animation - slow, continuous clockwise rotation
+    if (logoRef.current) {
+      gsap.to(logoRef.current, {
+        rotation: 360,
+        duration: 20, // 20 seconds for one full rotation
+        repeat: -1, // infinite rotation
+        ease: "none" // linear rotation speed
+      });
+    }
   }, []);
 
   const navItems = [
@@ -49,14 +60,21 @@ const Navigation = () => {
           <div className="nav-item flex items-center space-x-3">
             <a 
               href="#hero" 
-              className="text-2xl font-light text-glow cursor-pointer"
+              className="cursor-pointer flex items-center space-x-3"
               onClick={() => scrollToSection('#hero')}
             >
-              KB
+              {/* New Logo with Rotation Animation */}
+              <img 
+                ref={logoRef}
+                src="https://i.postimg.cc/qqHB65xn/20250731-160737-1.png" 
+                alt="Kunal Bisen Logo" 
+                className="w-10 h-10 object-contain"
+              />
+              {/* Kunal Bisen Text */}
+              <span className="text-xl font-light text-glow">
+                Kunal Bisen
+              </span>
             </a>
-            <span className="text-lg font-light text-muted-foreground hidden sm:block">
-              Kunal Bisen
-            </span>
           </div>
           
           {/* Desktop Menu */}

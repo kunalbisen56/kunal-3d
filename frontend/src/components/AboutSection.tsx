@@ -212,14 +212,14 @@ const AboutSection = () => {
                 </div>
               </div>
               
-              {/* Experience Badge - Bottom Right */}
+              {/* Experience Badge - Bottom Right - Updated */}
               <div 
                 ref={badgeRef}
                 className="absolute -bottom-2 -right-2 bg-gradient-primary text-white px-3 py-2 rounded-full text-sm font-medium shadow-lg border-2 border-background backdrop-blur-sm"
               >
-                <div className="flex items-center space-x-1">
-                  <span className="text-lg">⭐</span>
-                  <span className="whitespace-nowrap">4+ Years</span>
+                <div className="text-center">
+                  <div className="whitespace-nowrap font-semibold">4+ Years</div>
+                  <div className="text-xs whitespace-nowrap opacity-90">Experience</div>
                 </div>
               </div>
               
