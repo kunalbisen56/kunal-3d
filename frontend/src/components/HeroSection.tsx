@@ -1,15 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import ThreeScene from './ThreeScene';
+
 const HeroSection = () => {
   const heroRef = useRef<HTMLElement>(null);
   const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
-    const tl = gsap.timeline({
-      delay: 4
-    }); // After loading screen
+    const tl = gsap.timeline({ delay: 4 }); // After loading screen
 
     // Set initial states
     gsap.set([headlineRef.current, subtitleRef.current, ctaRef.current], {
@@ -49,26 +49,31 @@ const HeroSection = () => {
       stagger: 0.5
     });
 
-    // CTA hover animation
+    // Enhanced CTA hover animations
     const handleCTAHover = () => {
       gsap.to(ctaRef.current, {
-        scale: 1.05,
+        scale: 1.1,
+        boxShadow: "0 20px 40px rgba(139, 92, 246, 0.4)",
         duration: 0.3,
-        ease: "power2.out"
+        ease: "back.out(1.7)"
       });
     };
+    
     const handleCTALeave = () => {
       gsap.to(ctaRef.current, {
         scale: 1,
+        boxShadow: "0 10px 20px rgba(139, 92, 246, 0.2)",
         duration: 0.3,
         ease: "power2.out"
       });
     };
+
     const cta = ctaRef.current;
     if (cta) {
       cta.addEventListener('mouseenter', handleCTAHover);
       cta.addEventListener('mouseleave', handleCTALeave);
     }
+
     return () => {
       if (cta) {
         cta.removeEventListener('mouseenter', handleCTAHover);
@@ -76,15 +81,16 @@ const HeroSection = () => {
       }
     };
   }, []);
+
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
     if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
+      element.scrollIntoView({ behavior: 'smooth' });
     }
   };
-  return <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+
+  return (
+    <section ref={heroRef} id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Three.js 3D Background */}
       <ThreeScene />
 
@@ -116,8 +122,29 @@ const HeroSection = () => {
           </p>
         </div>
 
-        <button ref={ctaRef} onClick={scrollToContact} className="btn-glow px-8 py-4 rounded-full text-lg font-medium tracking-wider pulse-glow text-indigo-50 bg-purple-800 hover:bg-purple-700">
-          Hire Me
+        <button 
+          ref={ctaRef} 
+          onClick={scrollToContact} 
+          className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white font-medium rounded-full text-lg tracking-wider transition-all duration-300 shadow-lg hover:shadow-purple-500/25 overflow-hidden"
+        >
+          {/* Button Background Glow */}
+          <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></div>
+          
+          {/* Button Text */}
+          <span className="relative z-10 flex items-center space-x-2">
+            <span>Hire Me</span>
+            <svg 
+              className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
+            </svg>
+          </span>
+          
+          {/* Ripple Effect */}
+          <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transform scale-0 group-hover:scale-100 transition-all duration-500"></div>
         </button>
       </div>
 
@@ -127,6 +154,8 @@ const HeroSection = () => {
           <div className="w-1 h-3 bg-muted-foreground rounded-full mt-2 animate-pulse"></div>
         </div>
       </div>
-    </section>;
+    </section>
+  );
 };
+
 export default HeroSection;
