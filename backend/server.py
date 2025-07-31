@@ -73,6 +73,84 @@ async def get_status_checks():
     status_checks = await db.status_checks.find().to_list(1000)
     return [StatusCheck(**status_check) for status_check in status_checks]
 
+# Contact Form Routes
+@api_router.post("/contact", response_model=ContactSubmissionResponse)
+async def submit_contact_form(contact_data: ContactSubmissionCreate):
+    """
+    Submit a new contact form entry
+    """
+    try:
+        # Create contact submission object
+        contact_submission = ContactSubmission(**contact_data.dict())
+        
+        # Save to database
+        result = await db.contacts.insert_one(contact_submission.dict())
+        
+        if result.inserted_id:
+            logger.info(f"New contact submission received from {contact_data.email}")
+            return ContactSubmissionResponse(
+                success=True,
+                message="Thank you for your message! I'll get back to you soon.",
+                contact_id=contact_submission.id
+            )
+        else:
+            raise HTTPException(status_code=500, detail="Failed to save contact submission")
+            
+    except Exception as e:
+        logger.error(f"Error saving contact submission: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@api_router.get("/contact", response_model=List[ContactSubmission])
+async def get_contact_submissions():
+    """
+    Get all contact form submissions (admin only)
+    """
+    try:
+        contacts = await db.contacts.find().sort("timestamp", -1).to_list(1000)
+        return [ContactSubmission(**contact) for contact in contacts]
+    except Exception as e:
+        logger.error(f"Error fetching contact submissions: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@api_router.get("/contact/{contact_id}", response_model=ContactSubmission)
+async def get_contact_submission(contact_id: str):
+    """
+    Get a specific contact submission by ID
+    """
+    try:
+        contact = await db.contacts.find_one({"id": contact_id})
+        if contact:
+            return ContactSubmission(**contact)
+        else:
+            raise HTTPException(status_code=404, detail="Contact submission not found")
+    except Exception as e:
+        logger.error(f"Error fetching contact submission {contact_id}: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+@api_router.patch("/contact/{contact_id}/status")
+async def update_contact_status(contact_id: str, status: str):
+    """
+    Update the status of a contact submission (admin only)
+    """
+    try:
+        valid_statuses = ["new", "read", "replied"]
+        if status not in valid_statuses:
+            raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {valid_statuses}")
+        
+        result = await db.contacts.update_one(
+            {"id": contact_id},
+            {"$set": {"status": status}}
+        )
+        
+        if result.matched_count:
+            return {"success": True, "message": f"Contact status updated to {status}"}
+        else:
+            raise HTTPException(status_code=404, detail="Contact submission not found")
+            
+    except Exception as e:
+        logger.error(f"Error updating contact status: {str(e)}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
 # Include the router in the main app
 app.include_router(api_router)
 
