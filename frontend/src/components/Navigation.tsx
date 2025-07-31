@@ -19,11 +19,11 @@ const Navigation = () => {
       }
     );
 
-    // Logo rotation animation - slow, continuous clockwise rotation
+    // Logo rotation animation - faster clockwise rotation
     if (logoRef.current) {
       gsap.to(logoRef.current, {
         rotation: 360,
-        duration: 20, // 20 seconds for one full rotation
+        duration: 8, // Faster rotation - from 20 seconds to 8 seconds
         repeat: -1, // infinite rotation
         ease: "none" // linear rotation speed
       });
@@ -58,12 +58,12 @@ const Navigation = () => {
               className="cursor-pointer flex items-center space-x-4"
               onClick={() => scrollToSection('#hero')}
             >
-              {/* Enlarged Logo with Rotation Animation */}
+              {/* Enlarged Logo with Faster Rotation Animation */}
               <img 
                 ref={logoRef}
                 src="https://i.postimg.cc/qqHB65xn/20250731-160737-1.png" 
                 alt="Kunal Bisen Logo" 
-                className="w-14 h-14 object-contain"
+                className="w-16 h-16 object-contain"
               />
               {/* Kunal Bisen Text */}
               <span className="text-xl font-light text-glow">

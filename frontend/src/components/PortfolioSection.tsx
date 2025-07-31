@@ -4,145 +4,164 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 const PortfolioSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const portfolioItems = [{
+    id: 1,
+    title: 'E-Commerce Platform',
+    description: 'Modern online stores with secure payment gateways and inventory management.',
+    image: '/placeholder.svg',
+    category: 'E-Commerce',
+    link: 'https://theloom.in/'
+  }, {
+    id: 2,
+    title: 'Business Websites',
+    description: 'Professional corporate websites that establish strong brand presence.',
+    image: '/placeholder.svg',
+    category: 'Business',
+    link: 'https://citizen.com/'
+  }, {
+    id: 3,
+    title: 'Portfolio Websites',
+    description: 'Creative portfolio sites that showcase work in stunning visual layouts.',
+    image: '/placeholder.svg',
+    category: 'Portfolio',
+    link: 'https://dribbble.com/shots/21719966-3D-Portfolio-Website'
+  }, {
+    id: 4,
+    title: 'Blog/Magazine Websites',
+    description: 'Content-rich platforms with engaging layouts and smooth reading experience.',
+    image: '/placeholder.svg',
+    category: 'Blog',
+    link: 'https://ruttl.com/blog/best-web-design-blogs/'
+  }, {
+    id: 5,
+    title: 'Education Websites',
+    description: 'Interactive learning platforms with course management and student portals.',
+    image: '/placeholder.svg',
+    category: 'Education',
+    link: 'https://blacksmith.agency/resources/web-design/best-university-website-examples/'
+  }, {
+    id: 6,
+    title: 'Web Applications/SaaS',
+    description: 'Scalable software solutions with user dashboards and advanced functionality.',
+    image: '/placeholder.svg',
+    category: 'SaaS',
+    link: 'https://www.butter.us/'
+  }];
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Section fade in
+    // Section fade in animation
     gsap.fromTo(section, {
       opacity: 0,
-      y: 30
+      filter: "blur(10px)"
     }, {
       opacity: 1,
-      y: 0,
+      filter: "blur(0px)",
       duration: 1,
-      ease: "power2.out",
       scrollTrigger: {
         trigger: section,
         start: "top 80%",
         end: "bottom 20%",
-        toggleActions: "play none none none"
+        toggleActions: "play none none reverse"
       }
     });
 
-    // Portfolio cards stagger animation
-    const cards = section.querySelectorAll('.portfolio-card');
-    gsap.fromTo(cards, {
-      opacity: 0,
+    // Portfolio items stagger animation
+    gsap.fromTo('.portfolio-item', {
       y: 50,
-      scale: 0.95
+      opacity: 0,
+      scale: 0.9
     }, {
-      opacity: 1,
       y: 0,
+      opacity: 1,
       scale: 1,
       duration: 0.8,
-      stagger: 0.2,
+      stagger: 0.15,
       ease: "power2.out",
       scrollTrigger: {
-        trigger: section,
-        start: "top 70%",
-        end: "bottom 20%",
-        toggleActions: "play none none none"
+        trigger: '.portfolio-grid',
+        start: "top 80%",
+        toggleActions: "play none none reverse"
       }
     });
-    return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
-    };
+
+    // Hover animations for portfolio items
+    const portfolioCards = section.querySelectorAll('.portfolio-item');
+    portfolioCards.forEach(card => {
+      const handleMouseEnter = () => {
+        gsap.to(card, {
+          y: -10,
+          scale: 1.02,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      };
+      const handleMouseLeave = () => {
+        gsap.to(card, {
+          y: 0,
+          scale: 1,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      };
+      card.addEventListener('mouseenter', handleMouseEnter);
+      card.addEventListener('mouseleave', handleMouseLeave);
+    });
   }, []);
-  const portfolioItems = [{
-    id: 1,
-    title: "E-Commerce Platform",
-    description: "Modern online stores with secure payment gateways, inventory management, and user-friendly shopping experiences.",
-    image: "/src/assets/ecommerce-portfolio-new.jpg",
-    link: "#"
-  }, {
-    id: 2,
-    title: "Business Websites",
-    description: "Professional corporate websites that establish credibility and showcase your brand with elegant design.",
-    image: "/src/assets/business-portfolio-new.jpg",
-    link: "#"
-  }, {
-    id: 3,
-    title: "Portfolio Websites",
-    description: "Creative portfolio sites that beautifully showcase your work and help you stand out in your industry.",
-    image: "/src/assets/portfolio-portfolio-new.jpg",
-    link: "#"
-  }, {
-    id: 4,
-    title: "Blog or Magazine Websites",
-    description: "Content-rich platforms with intuitive navigation, SEO optimization, and engaging reading experiences.",
-    image: "/src/assets/blog-portfolio-new.jpg",
-    link: "#"
-  }, {
-    id: 5,
-    title: "Education Websites",
-    description: "Interactive learning platforms with course management, student portals, and educational content delivery.",
-    image: "/src/assets/education-portfolio-new.jpg",
-    link: "#"
-  }, {
-    id: 6,
-    title: "Web Applications / SaaS Websites",
-    description: "Scalable software solutions with modern UI/UX, real-time features, and robust backend systems.",
-    image: "/src/assets/saas-portfolio-new.jpg",
-    link: "#"
-  }];
-  return <section id="portfolio" ref={sectionRef} className="py-20 bg-gradient-to-br from-background via-background to-muted/20">
-      <div className="container mx-auto px-4 max-w-7xl">
+
+  const handleViewProject = (link: string) => {
+    window.open(link, '_blank', 'noopener,noreferrer');
+  };
+
+  return <section ref={sectionRef} id="portfolio" className="py-20 px-6">
+      <div className="max-w-7xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-4xl bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent mb-6 font-medium md:text-6xl">
-            Portfolio
+          <h2 className="text-4xl md:text-6xl font-light mb-4">
+            <span className="text-glow bg-gradient-primary bg-clip-text text-transparent">
+              Portfolio
+            </span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto leading-relaxed">
-            Explore our diverse range of web solutions, each crafted with precision and tailored to meet specific business needs.
+          <div className="w-32 h-1 bg-gradient-primary rounded-full mx-auto mb-6"></div>
+          <p className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed">
+            Explore our diverse range of web solutions, each crafted with precision and 
+            tailored to meet specific business needs.
           </p>
         </div>
 
-        {/* Desktop Grid Layout */}
-        <div className="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" ref={containerRef}>
-          {portfolioItems.map(item => <div key={item.id} className="portfolio-card group bg-card rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-border/50 hover:border-primary/20">
-              <div className="relative overflow-hidden">
-                <img src={item.image} alt={item.title} className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+        <div className="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {portfolioItems.map(item => <div key={item.id} className="portfolio-item glass rounded-2xl overflow-hidden hover:glow-primary transition-all duration-500 cursor-pointer group">
+              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
+                <div className="text-6xl opacity-30 group-hover:opacity-50 transition-opacity duration-300">
+                  {item.category === 'E-Commerce' && '🛒'}
+                  {item.category === 'Business' && '🏢'}
+                  {item.category === 'Portfolio' && '🎨'}
+                  {item.category === 'Blog' && '📝'}
+                  {item.category === 'Education' && '🎓'}
+                  {item.category === 'SaaS' && '💻'}
+                </div>
+                <div className="absolute top-4 right-4">
+                  <span className="px-3 py-1 bg-primary/80 text-primary-foreground rounded-full text-xs font-medium">
+                    {item.category}
+                  </span>
+                </div>
               </div>
               
               <div className="p-6">
                 <h3 className="text-xl font-semibold text-foreground mb-3 group-hover:text-primary transition-colors duration-300">
                   {item.title}
                 </h3>
-                <p className="text-muted-foreground mb-4 text-sm leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-6 text-sm">
                   {item.description}
                 </p>
-                <button className="inline-flex items-center justify-center px-6 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 text-sm font-medium group-hover:shadow-lg group-hover:shadow-primary/25">
+                <button 
+                  onClick={() => handleViewProject(item.link)}
+                  className="w-full py-3 glass rounded-lg font-medium tracking-wider hover:glow-primary transition-all duration-300 text-foreground hover:text-primary"
+                >
                   View Project
                 </button>
               </div>
             </div>)}
-        </div>
-
-        {/* Mobile Horizontal Scroll Layout */}
-        <div className="md:hidden overflow-x-auto">
-          <div className="flex gap-6 pb-4" style={{
-          width: `${portfolioItems.length * 280}px`
-        }}>
-            {portfolioItems.map(item => <div key={item.id} className="portfolio-card flex-shrink-0 w-64 bg-card rounded-xl overflow-hidden shadow-lg border border-border/50">
-                <div className="relative overflow-hidden">
-                  <img src={item.image} alt={item.title} className="w-full h-36 object-cover" />
-                </div>
-                
-                <div className="p-4">
-                  <h3 className="text-lg font-semibold text-foreground mb-2">
-                    {item.title}
-                  </h3>
-                  <p className="text-muted-foreground mb-3 text-xs leading-relaxed">
-                    {item.description}
-                  </p>
-                  <button className="inline-flex items-center justify-center px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 transition-all duration-300 text-xs font-medium w-full">
-                    View Project
-                  </button>
-                </div>
-              </div>)}
-          </div>
         </div>
       </div>
     </section>;
