@@ -238,8 +238,33 @@ const ContactSection = () => {
               <textarea id="message" name="message" rows={5} value={formData.message} onChange={handleInputChange} required className="w-full px-4 py-3 glass rounded-lg border border-muted/30 focus:border-primary/60 focus:outline-none focus:glow-primary transition-all duration-300 bg-transparent text-foreground placeholder-muted-foreground resize-none" placeholder="Tell me about your project..." />
             </div>
 
-            <button type="submit" className="submit-btn w-full py-4 btn-glow rounded-lg font-medium tracking-wider pulse-glow">
-              Send Message
+            <button 
+              type="submit" 
+              disabled={isSubmitting}
+              className={`submit-btn w-full py-4 btn-glow rounded-lg font-medium tracking-wider transition-all duration-300 ${
+                isSubmitting 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'pulse-glow hover:scale-105'
+              }`}
+            >
+              {isSubmitting ? (
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Sending...</span>
+                </div>
+              ) : (
+                <div className="flex items-center justify-center space-x-2">
+                  <span>Send Message</span>
+                  <svg 
+                    className="w-5 h-5 transform group-hover:translate-x-1 transition-transform duration-300" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    viewBox="0 0 24 24"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                  </svg>
+                </div>
+              )}
             </button>
           </form>
 
