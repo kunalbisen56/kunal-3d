@@ -7,6 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 const ServicesSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const lottieRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -89,6 +90,25 @@ const ServicesSection = () => {
         }
       }
     );
+
+    // Enhanced Lottie animation for Portfolio button
+    if (lottieRef.current) {
+      gsap.to(lottieRef.current, {
+        rotation: 360,
+        duration: 8,
+        repeat: -1,
+        ease: "none"
+      });
+      
+      gsap.to(".lottie-pulse", {
+        scale: 1.1,
+        opacity: 0.3,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: "power2.inOut"
+      });
+    }
   }, []);
 
   const services = [
@@ -205,30 +225,29 @@ const ServicesSection = () => {
           })}
         </div>
 
-        {/* CTA Section with Lottie Animation Background */}
+        {/* Enhanced CTA Section with Advanced Lottie Animation */}
         <div className="services-cta-section text-center glass p-12 rounded-2xl relative overflow-hidden">
-          {/* Lottie Animation Background */}
-          <div className="absolute inset-0 flex items-center justify-center opacity-10 overflow-hidden">
-            <div className="w-full h-full bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl"></div>
+          {/* Enhanced Background Lottie Animation */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-5 overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-r from-primary/10 to-accent/10 rounded-2xl"></div>
             <svg 
-              className="absolute w-64 h-64 animate-pulse" 
-              viewBox="0 0 200 200" 
+              className="absolute w-96 h-96 animate-spin" 
+              style={{ animationDuration: '20s' }}
+              viewBox="0 0 400 400" 
               xmlns="http://www.w3.org/2000/svg"
             >
               <defs>
-                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style={{stopColor:"#8b5cf6",stopOpacity:0.3}} />
-                  <stop offset="100%" style={{stopColor:"#06b6d4",stopOpacity:0.3}} />
+                <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{stopColor:"#8b5cf6",stopOpacity:0.1}} />
+                  <stop offset="50%" style={{stopColor:"#06b6d4",stopOpacity:0.1}} />
+                  <stop offset="100%" style={{stopColor:"#ec4899",stopOpacity:0.1}} />
                 </linearGradient>
               </defs>
-              <circle cx="100" cy="100" r="80" fill="url(#grad1)">
-                <animate attributeName="r" values="70;90;70" dur="3s" repeatCount="indefinite"/>
+              <circle cx="200" cy="200" r="150" fill="none" stroke="url(#bgGrad)" strokeWidth="2">
+                <animate attributeName="r" values="120;180;120" dur="6s" repeatCount="indefinite"/>
               </circle>
-              <circle cx="100" cy="100" r="60" fill="none" stroke="url(#grad1)" strokeWidth="2">
-                <animate attributeName="r" values="50;70;50" dur="2s" repeatCount="indefinite"/>
-              </circle>
-              <circle cx="100" cy="100" r="40" fill="url(#grad1)" opacity="0.5">
-                <animate attributeName="r" values="30;50;30" dur="1.5s" repeatCount="indefinite"/>
+              <circle cx="200" cy="200" r="100" fill="none" stroke="url(#bgGrad)" strokeWidth="1">
+                <animate attributeName="r" values="80;120;80" dur="4s" repeatCount="indefinite"/>
               </circle>
             </svg>
           </div>
@@ -248,15 +267,57 @@ const ServicesSection = () => {
               >
                 Get Started Now
               </button>
-              <div className="relative">
-                {/* Lottie Animation Background for Portfolio Button */}
-                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg animate-pulse"></div>
+              
+              {/* Enhanced Portfolio Button with Advanced Lottie Animation */}
+              <div className="relative group">
+                {/* Advanced Lottie Animation Background */}
+                <div 
+                  ref={lottieRef}
+                  className="absolute inset-0 rounded-lg overflow-hidden"
+                >
+                  {/* Multiple Layer Animation */}
+                  <div className="lottie-pulse absolute inset-0 bg-gradient-to-r from-purple-500/20 via-blue-500/20 to-pink-500/20 rounded-lg"></div>
+                  <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-accent/10 rounded-lg animate-pulse"></div>
+                  
+                  {/* Animated Border Effect */}
+                  <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 40">
+                    <defs>
+                      <linearGradient id="portfolioGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                        <stop offset="0%" style={{stopColor:"#8b5cf6",stopOpacity:0.6}}>
+                          <animate attributeName="stop-opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="50%" style={{stopColor:"#06b6d4",stopOpacity:0.8}}>
+                          <animate attributeName="stop-opacity" values="0.8;0.4;0.8" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                        <stop offset="100%" style={{stopColor:"#ec4899",stopOpacity:0.6}}>
+                          <animate attributeName="stop-opacity" values="0.6;1;0.6" dur="2s" repeatCount="indefinite"/>
+                        </stop>
+                      </linearGradient>
+                    </defs>
+                    <rect x="1" y="1" width="98" height="38" fill="none" stroke="url(#portfolioGrad)" strokeWidth="0.5" rx="6">
+                      <animate attributeName="stroke-dasharray" values="0,400;200,200;400,0;400,0" dur="4s" repeatCount="indefinite"/>
+                      <animate attributeName="stroke-dashoffset" values="0;-200;-400;-400" dur="4s" repeatCount="indefinite"/>
+                    </rect>
+                  </svg>
+                  
+                  {/* Floating Particles */}
+                  <div className="absolute inset-0 overflow-hidden rounded-lg">
+                    <div className="absolute w-1 h-1 bg-primary rounded-full animate-ping" style={{top: '20%', left: '15%', animationDelay: '0s'}}></div>
+                    <div className="absolute w-1.5 h-1.5 bg-accent rounded-full animate-ping" style={{top: '60%', right: '20%', animationDelay: '1s'}}></div>
+                    <div className="absolute w-1 h-1 bg-secondary rounded-full animate-ping" style={{bottom: '25%', left: '70%', animationDelay: '2s'}}></div>
+                  </div>
+                </div>
+                
                 <button 
                   onClick={scrollToPortfolio}
-                  className="relative inline-flex items-center justify-center px-8 py-3 glass rounded-lg hover:glow-primary transition-all duration-300 font-medium text-lg text-foreground backdrop-blur-sm border border-primary/20"
+                  className="relative inline-flex items-center justify-center px-8 py-3 glass rounded-lg hover:glow-primary transition-all duration-300 font-medium text-lg text-foreground backdrop-blur-sm border border-primary/30 group-hover:border-primary/60"
                 >
-                  <span className="relative z-10">View Portfolio</span>
-                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                  <span className="relative z-10 flex items-center space-x-2">
+                    <span>View Portfolio</span>
+                    <svg className="w-4 h-4 transform group-hover:scale-110 transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </span>
                 </button>
               </div>
             </div>
