@@ -31,18 +31,28 @@ const Navigation = () => {
   }, []);
 
   const navItems = [
-    { name: 'Home', href: '#hero' },
-    { name: 'About', href: '#about' },
-    { name: 'Portfolio', href: '#portfolio' },
-    { name: 'Services', href: '#services' },
-    { name: 'Contact', href: '#contact' }
+    { name: 'Home', href: '/' },
+    { name: 'Video', href: '/video' },
+    { name: 'About', href: '/#about' },
+    { name: 'Portfolio', href: '/#portfolio' },
+    { name: 'Services', href: '/#services' },
+    { name: 'Contact', href: '/#contact' }
   ];
 
-  const scrollToSection = (href: string) => {
-    // All navigation now scrolls to sections on the same page
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('/#')) {
+      // Navigate to section on home page
+      if (window.location.pathname !== '/') {
+        window.location.href = href;
+      } else {
+        const element = document.querySelector(href.substring(1));
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }
+    } else {
+      // Navigate to different page
+      window.location.href = href;
     }
     setIsMenuOpen(false);
   };
@@ -54,9 +64,8 @@ const Navigation = () => {
         <div className="max-w-7xl mx-auto flex justify-between items-center">
           <div className="nav-item flex items-center space-x-4">
             <a 
-              href="#hero" 
+              href="/" 
               className="cursor-pointer flex items-center space-x-4"
-              onClick={() => scrollToSection('#hero')}
             >
               {/* Enlarged Logo with Faster Rotation Animation */}
               <img 
@@ -77,7 +86,7 @@ const Navigation = () => {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="nav-item text-muted-foreground hover:text-primary transition-colors duration-300 tracking-wider text-sm"
               >
                 {item.name}
@@ -104,7 +113,7 @@ const Navigation = () => {
             {navItems.map((item, index) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className={`block text-3xl font-light text-foreground hover:text-primary transition-all duration-300 transform ${isMenuOpen ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'}`}
                 style={{ transitionDelay: `${index * 100}ms` }}
               >

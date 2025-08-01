@@ -8,42 +8,42 @@ const PortfolioSection = () => {
     id: 1,
     title: 'E-Commerce Platform',
     description: 'Modern online stores with secure payment gateways and inventory management.',
-    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/Nf4pgbDD/IMG-20250801-WA0010.jpg',
     category: 'E-Commerce',
     link: 'https://theloom.in/'
   }, {
     id: 2,
     title: 'Business Websites',
     description: 'Professional corporate websites that establish strong brand presence.',
-    image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/ThMMf0cf/IMG-20250801-WA0003-1.jpg',
     category: 'Business',
     link: 'https://citizen.com/'
   }, {
     id: 3,
     title: 'Portfolio Websites',
     description: 'Creative portfolio sites that showcase work in stunning visual layouts.',
-    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/xT29rjpH/IMG-20250801-WA0005.jpg',
     category: 'Portfolio',
     link: 'https://dribbble.com/shots/21719966-3D-Portfolio-Website'
   }, {
     id: 4,
     title: 'Blog/Magazine Websites',
     description: 'Content-rich platforms with engaging layouts and smooth reading experience.',
-    image: 'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/GtRVft3m/IMG-20250801-WA0002.jpg',
     category: 'Blog',
     link: 'https://ruttl.com/blog/best-web-design-blogs/'
   }, {
     id: 5,
     title: 'Education Websites',
     description: 'Interactive learning platforms with course management and student portals.',
-    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/jjJ1dPLj/IMG-20250801-WA0008.jpg',
     category: 'Education',
     link: 'https://blacksmith.agency/resources/web-design/best-university-website-examples/'
   }, {
     id: 6,
     title: 'Web Applications/SaaS',
     description: 'Scalable software solutions with user dashboards and advanced functionality.',
-    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://i.postimg.cc/hGFgKSpV/IMG-20250801-WA0007.jpg',
     category: 'SaaS',
     link: 'https://www.butter.us/'
   }];

@@ -9,28 +9,41 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
 import uuid
 from datetime import datetime
+import pytz
 
+# Load environment variables
+load_dotenv()
 
-ROOT_DIR = Path(__file__).parent
-load_dotenv(ROOT_DIR / '.env')
+# Initialize FastAPI
+app = FastAPI(title="FastAPI React MongoDB Application")
 
-# MongoDB connection
-mongo_url = os.environ['MONGO_URL']
+# Configure CORS
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # In production, replace with specific origins
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
+# Initialize MongoDB client
+mongo_url = os.environ.get('MONGO_URL', 'mongodb://localhost:27017')
 client = AsyncIOMotorClient(mongo_url)
-db = client[os.environ['DB_NAME']]
+db_name = os.environ.get('DB_NAME', 'test_database')
+db = client[db_name]
 
-# Create the main app without a prefix
-app = FastAPI()
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Create a router with the /api prefix
+# Create API router
 api_router = APIRouter(prefix="/api")
-
 
 # Define Models
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(pytz.timezone('Asia/Kolkata')))
 
 class StatusCheckCreate(BaseModel):
     client_name: str
@@ -42,7 +55,7 @@ class ContactSubmission(BaseModel):
     email: EmailStr
     profession: Optional[str] = None
     message: str
-    timestamp: datetime = Field(default_factory=datetime.utcnow)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(pytz.timezone('Asia/Kolkata')))
     status: str = Field(default="new")  # new, read, replied
 
 class ContactSubmissionCreate(BaseModel):
@@ -80,14 +93,14 @@ async def submit_contact_form(contact_data: ContactSubmissionCreate):
     Submit a new contact form entry
     """
     try:
-        # Create contact submission object
+        # Create contact submission object with current local time
         contact_submission = ContactSubmission(**contact_data.dict())
         
         # Save to database
         result = await db.contacts.insert_one(contact_submission.dict())
         
         if result.inserted_id:
-            logger.info(f"New contact submission received from {contact_data.email}")
+            logger.info(f"New contact submission received from {contact_data.email} at {contact_submission.timestamp}")
             return ContactSubmissionResponse(
                 success=True,
                 message="Thank you for your message! I'll get back to you soon.",
@@ -151,24 +164,9 @@ async def update_contact_status(contact_id: str, status: str):
         logger.error(f"Error updating contact status: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
 
-# Include the router in the main app
+# Mount the API router
 app.include_router(api_router)
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_credentials=True,
-    allow_origins=["*"],
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# Configure logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
-)
-logger = logging.getLogger(__name__)
-
-@app.on_event("shutdown")
-async def shutdown_db_client():
-    client.close()
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8001)

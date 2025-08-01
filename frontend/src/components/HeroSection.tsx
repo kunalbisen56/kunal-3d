@@ -7,13 +7,12 @@ const HeroSection = () => {
   const headlineRef = useRef<HTMLDivElement>(null);
   const subtitleRef = useRef<HTMLDivElement>(null);
   const ctaRef = useRef<HTMLButtonElement>(null);
-  const videoRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({ delay: 4 }); // After loading screen
 
     // Set initial states
-    gsap.set([headlineRef.current, subtitleRef.current, ctaRef.current, videoRef.current], {
+    gsap.set([headlineRef.current, subtitleRef.current, ctaRef.current], {
       opacity: 0,
       y: 50,
       filter: "blur(10px)"
@@ -38,13 +37,7 @@ const HeroSection = () => {
       filter: "blur(0px)",
       duration: 0.8,
       ease: "power2.out"
-    }, "-=0.4").to(videoRef.current, {
-      opacity: 1,
-      y: 0,
-      filter: "blur(0px)",
-      duration: 0.8,
-      ease: "power2.out"
-    }, "-=0.2");
+    }, "-=0.4");
 
     // Floating animation for background elements
     gsap.to('.hero-orb', {
@@ -132,7 +125,7 @@ const HeroSection = () => {
         <button 
           ref={ctaRef} 
           onClick={scrollToContact} 
-          className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white font-medium rounded-full text-lg tracking-wider transition-all duration-300 shadow-lg hover:shadow-purple-500/25 overflow-hidden mb-12"
+          className="group relative inline-flex items-center justify-center px-8 py-4 bg-gradient-to-r from-purple-600 to-purple-800 text-white font-medium rounded-full text-lg tracking-wider transition-all duration-300 shadow-lg hover:shadow-purple-500/25 overflow-hidden"
         >
           {/* Button Background Glow */}
           <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-full"></div>
@@ -153,29 +146,6 @@ const HeroSection = () => {
           {/* Ripple Effect */}
           <div className="absolute inset-0 rounded-full bg-white opacity-0 group-hover:opacity-10 transform scale-0 group-hover:scale-100 transition-all duration-500"></div>
         </button>
-
-        {/* Introduction Video Frame */}
-        <div ref={videoRef} className="w-full max-w-4xl mx-auto">
-          <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
-            <div className="absolute inset-0 glass rounded-2xl overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors duration-300">
-              <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <div className="w-20 h-20 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-4 hover:scale-110 transition-transform duration-300 cursor-pointer group">
-                    <svg 
-                      className="w-8 h-8 text-primary group-hover:text-white transition-colors duration-300" 
-                      fill="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-xl font-semibold text-foreground">Introduction Video</h3>
-                  <p className="text-muted-foreground text-sm">Get to know more about my work and approach</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
 
       {/* Scroll indicator */}

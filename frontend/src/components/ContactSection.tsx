@@ -98,38 +98,59 @@ const ContactSection = () => {
     });
   };
 
-  const playSuccessSound = () => {
+  const playCongratulationSound = () => {
     try {
-      // Create audio context for success sound
+      // Create audio context for soft congratulation sound
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       
-      // Create a pleasant success sound
+      // Create a gentle, congratulatory melody
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
-      // Create a pleasant melody
-      const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5
-      let currentFreq = 0;
+      // Set initial volume to very low for gentle fade-in
+      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
       
-      const playNote = () => {
-        if (currentFreq < frequencies.length) {
-          oscillator.frequency.setValueAtTime(frequencies[currentFreq], audioContext.currentTime);
-          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-          currentFreq++;
-          setTimeout(playNote, 200);
+      // Create a pleasant congratulation melody - C major chord progression
+      const frequencies = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
+      let currentNote = 0;
+      
+      const playNextNote = () => {
+        if (currentNote < frequencies.length) {
+          oscillator.frequency.setValueAtTime(frequencies[currentNote], audioContext.currentTime + currentNote * 0.4);
+          
+          // Gentle fade-in for each note
+          gainNode.gain.linearRampToValueAtTime(0.02, audioContext.currentTime + currentNote * 0.4 + 0.1);
+          gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + currentNote * 0.4 + 0.3);
+          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + currentNote * 0.4 + 0.4);
+          
+          currentNote++;
         }
       };
       
+      // Set oscillator type for warmer sound
+      oscillator.type = 'sine';
       oscillator.start();
-      playNote();
       
+      // Play notes with gentle timing
+      for (let i = 0; i < frequencies.length; i++) {
+        setTimeout(() => {
+          oscillator.frequency.setValueAtTime(frequencies[i], audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+          gainNode.gain.linearRampToValueAtTime(0.015, audioContext.currentTime + 0.1);
+          gainNode.gain.linearRampToValueAtTime(0.005, audioContext.currentTime + 0.3);
+          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.4);
+        }, i * 300);
+      }
+      
+      // Stop the oscillator after all notes
       setTimeout(() => {
-        oscillator.stop();
-      }, 1000);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
+        oscillator.stop(audioContext.currentTime + 0.3);
+      }, frequencies.length * 300);
+      
     } catch (error) {
       console.log('Audio not supported:', error);
     }
@@ -137,7 +158,7 @@ const ContactSection = () => {
 
   const showSuccessAnimation = () => {
     setShowSuccess(true);
-    playSuccessSound();
+    playCongratulationSound();
     
     // Paper spreading animation
     gsap.fromTo('.success-modal', {
@@ -455,16 +476,6 @@ const ContactSection = () => {
                 <p className="text-xl text-primary font-semibold">
                   We will Contact You Soon
                 </p>
-              </div>
-              
-              <div className="flex justify-center space-x-2">
-                {[...Array(5)].map((_, i) => (
-                  <div
-                    key={i}
-                    className="w-3 h-3 bg-primary rounded-full animate-pulse"
-                    style={{ animationDelay: `${i * 0.2}s` }}
-                  ></div>
-                ))}
               </div>
             </div>
           </div>
