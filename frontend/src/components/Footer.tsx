@@ -108,7 +108,7 @@ const Footer = () => {
         {/* Bottom Line */}
         <div className="mt-8 pt-8 border-t border-muted/20 text-center">
           <p className="text-muted-foreground text-sm">
-            Built with ❤️ using React, GSAP, and cutting-edge web technologies
+            Built with care using React, GSAP, and cutting-edge web technologies
           </p>
         </div>
       </div>

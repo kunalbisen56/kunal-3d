@@ -8,42 +8,42 @@ const PortfolioSection = () => {
     id: 1,
     title: 'E-Commerce Platform',
     description: 'Modern online stores with secure payment gateways and inventory management.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=500&q=80',
     category: 'E-Commerce',
     link: 'https://theloom.in/'
   }, {
     id: 2,
     title: 'Business Websites',
     description: 'Professional corporate websites that establish strong brand presence.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500&q=80',
     category: 'Business',
     link: 'https://citizen.com/'
   }, {
     id: 3,
     title: 'Portfolio Websites',
     description: 'Creative portfolio sites that showcase work in stunning visual layouts.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=500&q=80',
     category: 'Portfolio',
     link: 'https://dribbble.com/shots/21719966-3D-Portfolio-Website'
   }, {
     id: 4,
     title: 'Blog/Magazine Websites',
     description: 'Content-rich platforms with engaging layouts and smooth reading experience.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?auto=format&fit=crop&w=500&q=80',
     category: 'Blog',
     link: 'https://ruttl.com/blog/best-web-design-blogs/'
   }, {
     id: 5,
     title: 'Education Websites',
     description: 'Interactive learning platforms with course management and student portals.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=500&q=80',
     category: 'Education',
     link: 'https://blacksmith.agency/resources/web-design/best-university-website-examples/'
   }, {
     id: 6,
     title: 'Web Applications/SaaS',
     description: 'Scalable software solutions with user dashboards and advanced functionality.',
-    image: '/placeholder.svg',
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=500&q=80',
     category: 'SaaS',
     link: 'https://www.butter.us/'
   }];
@@ -131,17 +131,15 @@ const PortfolioSection = () => {
 
         <div className="portfolio-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {portfolioItems.map(item => <div key={item.id} className="portfolio-item glass rounded-2xl overflow-hidden hover:glow-primary transition-all duration-500 cursor-pointer group">
-              <div className="relative h-48 bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center">
-                <div className="text-6xl opacity-30 group-hover:opacity-50 transition-opacity duration-300">
-                  {item.category === 'E-Commerce' && '🛒'}
-                  {item.category === 'Business' && '🏢'}
-                  {item.category === 'Portfolio' && '🎨'}
-                  {item.category === 'Blog' && '📝'}
-                  {item.category === 'Education' && '🎓'}
-                  {item.category === 'SaaS' && '💻'}
-                </div>
+              <div className="relative h-48 overflow-hidden">
+                <img 
+                  src={item.image} 
+                  alt={item.title}
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 group-hover:opacity-75 transition-opacity duration-300"></div>
                 <div className="absolute top-4 right-4">
-                  <span className="px-3 py-1 bg-primary/80 text-primary-foreground rounded-full text-xs font-medium">
+                  <span className="px-3 py-1 bg-primary/80 text-primary-foreground rounded-full text-xs font-medium backdrop-blur-sm">
                     {item.category}
                   </span>
                 </div>
@@ -156,7 +154,7 @@ const PortfolioSection = () => {
                 </p>
                 <button 
                   onClick={() => handleViewProject(item.link)}
-                  className="w-full py-3 glass rounded-lg font-medium tracking-wider hover:glow-primary transition-all duration-300 text-foreground hover:text-primary"
+                  className="w-full py-3 btn-glow rounded-lg font-medium tracking-wider transition-all duration-300 hover:scale-105"
                 >
                   View Project
                 </button>

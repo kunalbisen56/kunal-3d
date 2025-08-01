@@ -205,28 +205,61 @@ const ServicesSection = () => {
           })}
         </div>
 
-        {/* CTA Section */}
-        <div className="services-cta-section text-center glass p-12 rounded-2xl">
-          <h3 className="text-3xl md:text-4xl font-light text-foreground mb-6">
-            Let's Build Your Website Today
-          </h3>
-          <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
-            Ready to take your business online? Get in touch with us and let's discuss 
-            how we can help you achieve your digital goals.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <button 
-              onClick={scrollToContact}
-              className="inline-flex items-center justify-center px-8 py-3 btn-glow rounded-lg font-medium text-lg hover:scale-105 transition-all duration-300"
+        {/* CTA Section with Lottie Animation Background */}
+        <div className="services-cta-section text-center glass p-12 rounded-2xl relative overflow-hidden">
+          {/* Lottie Animation Background */}
+          <div className="absolute inset-0 flex items-center justify-center opacity-10 overflow-hidden">
+            <div className="w-full h-full bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl"></div>
+            <svg 
+              className="absolute w-64 h-64 animate-pulse" 
+              viewBox="0 0 200 200" 
+              xmlns="http://www.w3.org/2000/svg"
             >
-              Get Started Now
-            </button>
-            <button 
-              onClick={scrollToPortfolio}
-              className="inline-flex items-center justify-center px-8 py-3 glass rounded-lg hover:glow-primary transition-all duration-300 font-medium text-lg text-foreground"
-            >
-              View Portfolio
-            </button>
+              <defs>
+                <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style={{stopColor:"#8b5cf6",stopOpacity:0.3}} />
+                  <stop offset="100%" style={{stopColor:"#06b6d4",stopOpacity:0.3}} />
+                </linearGradient>
+              </defs>
+              <circle cx="100" cy="100" r="80" fill="url(#grad1)">
+                <animate attributeName="r" values="70;90;70" dur="3s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="100" cy="100" r="60" fill="none" stroke="url(#grad1)" strokeWidth="2">
+                <animate attributeName="r" values="50;70;50" dur="2s" repeatCount="indefinite"/>
+              </circle>
+              <circle cx="100" cy="100" r="40" fill="url(#grad1)" opacity="0.5">
+                <animate attributeName="r" values="30;50;30" dur="1.5s" repeatCount="indefinite"/>
+              </circle>
+            </svg>
+          </div>
+          
+          <div className="relative z-10">
+            <h3 className="text-3xl md:text-4xl font-light text-foreground mb-6">
+              Let's Build Your Website Today
+            </h3>
+            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto">
+              Ready to take your business online? Get in touch with us and let's discuss 
+              how we can help you achieve your digital goals.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={scrollToContact}
+                className="inline-flex items-center justify-center px-8 py-3 btn-glow rounded-lg font-medium text-lg hover:scale-105 transition-all duration-300"
+              >
+                Get Started Now
+              </button>
+              <div className="relative">
+                {/* Lottie Animation Background for Portfolio Button */}
+                <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 rounded-lg animate-pulse"></div>
+                <button 
+                  onClick={scrollToPortfolio}
+                  className="relative inline-flex items-center justify-center px-8 py-3 glass rounded-lg hover:glow-primary transition-all duration-300 font-medium text-lg text-foreground backdrop-blur-sm border border-primary/20"
+                >
+                  <span className="relative z-10">View Portfolio</span>
+                  <div className="absolute inset-0 bg-gradient-to-r from-primary/10 to-accent/10 rounded-lg opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
