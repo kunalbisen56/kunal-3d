@@ -8,7 +8,7 @@ const PortfolioSection = () => {
     id: 1,
     title: 'E-Commerce Platform',
     description: 'Modern online stores with secure payment gateways and inventory management.',
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=95',
     category: 'E-Commerce',
     link: 'https://theloom.in/'
   }, {
@@ -22,7 +22,7 @@ const PortfolioSection = () => {
     id: 3,
     title: 'Portfolio Websites',
     description: 'Creative portfolio sites that showcase work in stunning visual layouts.',
-    image: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?auto=format&fit=crop&w=1200&q=95',
+    image: 'https://images.unsplash.com/photo-1551650975-87deedd944c3?auto=format&fit=crop&w=1200&q=95',
     category: 'Portfolio',
     link: 'https://dribbble.com/shots/21719966-3D-Portfolio-Website'
   }, {

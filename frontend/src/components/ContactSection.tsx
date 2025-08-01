@@ -8,6 +8,7 @@ gsap.registerPlugin(ScrollTrigger);
 const ContactSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
   const { toast } = useToast();
   
   const [formData, setFormData] = useState({
@@ -18,6 +19,7 @@ const ContactSection = () => {
   });
   
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -96,6 +98,98 @@ const ContactSection = () => {
     });
   };
 
+  const playSuccessSound = () => {
+    try {
+      // Create audio context for success sound
+      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      
+      // Create a pleasant success sound
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+      
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+      
+      // Create a pleasant melody
+      const frequencies = [523.25, 659.25, 783.99]; // C5, E5, G5
+      let currentFreq = 0;
+      
+      const playNote = () => {
+        if (currentFreq < frequencies.length) {
+          oscillator.frequency.setValueAtTime(frequencies[currentFreq], audioContext.currentTime);
+          gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+          gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+          currentFreq++;
+          setTimeout(playNote, 200);
+        }
+      };
+      
+      oscillator.start();
+      playNote();
+      
+      setTimeout(() => {
+        oscillator.stop();
+      }, 1000);
+    } catch (error) {
+      console.log('Audio not supported:', error);
+    }
+  };
+
+  const showSuccessAnimation = () => {
+    setShowSuccess(true);
+    playSuccessSound();
+    
+    // Paper spreading animation
+    gsap.fromTo('.success-modal', {
+      scale: 0,
+      opacity: 0,
+      rotationY: -180
+    }, {
+      scale: 1,
+      opacity: 1,
+      rotationY: 0,
+      duration: 0.8,
+      ease: "back.out(1.7)"
+    });
+
+    // Paper particles animation
+    gsap.fromTo('.paper-particle', {
+      scale: 0,
+      opacity: 0,
+      rotation: 0
+    }, {
+      scale: 1,
+      opacity: 1,
+      rotation: 360,
+      duration: 1.2,
+      stagger: 0.1,
+      ease: "power2.out"
+    });
+
+    // Text reveal animation
+    gsap.fromTo('.success-text', {
+      y: 50,
+      opacity: 0
+    }, {
+      y: 0,
+      opacity: 1,
+      duration: 0.8,
+      delay: 0.3,
+      ease: "power2.out"
+    });
+
+    // Auto hide after 5 seconds
+    setTimeout(() => {
+      gsap.to('.success-modal', {
+        scale: 0,
+        opacity: 0,
+        duration: 0.5,
+        ease: "power2.in",
+        onComplete: () => setShowSuccess(false)
+      });
+    }, 5000);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -111,7 +205,7 @@ const ContactSection = () => {
 
     try {
       // Get backend URL from environment variables
-      const backendUrl = import.meta.env.REACT_APP_BACKEND_URL || process.env.REACT_APP_BACKEND_URL;
+      const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
       
       if (!backendUrl) {
         throw new Error('Backend URL not configured');
@@ -134,12 +228,6 @@ const ContactSection = () => {
       const result = await response.json();
 
       if (response.ok && result.success) {
-        // Show success toast
-        toast({
-          title: "Message Sent Successfully!",
-          description: result.message || "Thank you for your message. I'll get back to you soon!",
-        });
-
         // Reset form
         setFormData({
           name: '',
@@ -148,20 +236,8 @@ const ContactSection = () => {
           message: ''
         });
 
-        // Success animation
-        gsap.to('.submit-btn', {
-          backgroundColor: '#10b981',
-          duration: 0.3,
-          ease: "power2.out"
-        });
-
-        setTimeout(() => {
-          gsap.to('.submit-btn', {
-            backgroundColor: 'original',
-            duration: 0.3,
-            ease: "power2.out"
-          });
-        }, 2000);
+        // Show success animation and message
+        showSuccessAnimation();
 
       } else {
         throw new Error(result.message || 'Failed to send message');
@@ -197,7 +273,7 @@ const ContactSection = () => {
   };
 
   return (
-    <section ref={sectionRef} id="contact" className="py-20 px-6">
+    <section ref={sectionRef} id="contact" className="py-20 px-6 relative">
       <div className="max-w-4xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-light mb-4">
@@ -329,7 +405,7 @@ const ContactSection = () => {
                 </a>
                 <a href="https://www.instagram.com/digital_with_kunal?igsh=MWwxc3A5NDVzY2xjMg==" target="_blank" rel="noopener noreferrer" className="social-icon w-12 h-12 glass rounded-lg flex items-center justify-center hover:glow-primary transition-all duration-300 group">
                   <svg className="w-6 h-6 group-hover:scale-110 transition-transform duration-300" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/>
+                    <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.40s-.644-1.44-1.439-1.44z"/>
                   </svg>
                 </a>
                 <a href="https://www.facebook.com/share/1B1yoqL7Qg/" target="_blank" rel="noopener noreferrer" className="social-icon w-12 h-12 glass rounded-lg flex items-center justify-center hover:glow-primary transition-all duration-300 group">
@@ -342,6 +418,58 @@ const ContactSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Success Animation Modal */}
+      {showSuccess && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="success-modal relative bg-white rounded-3xl p-12 max-w-2xl mx-4 text-center shadow-2xl">
+            {/* Paper Particles */}
+            <div className="absolute inset-0 overflow-hidden rounded-3xl">
+              {[...Array(20)].map((_, i) => (
+                <div
+                  key={i}
+                  className="paper-particle absolute w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-sm"
+                  style={{
+                    left: `${Math.random() * 100}%`,
+                    top: `${Math.random() * 100}%`,
+                    animationDelay: `${i * 0.1}s`
+                  }}
+                ></div>
+              ))}
+            </div>
+            
+            {/* Success Content */}
+            <div className="success-text relative z-10">
+              <div className="mb-8">
+                <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
+                  <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                  </svg>
+                </div>
+                <h3 className="text-4xl font-bold text-gray-800 mb-4">
+                  Congratulations!
+                </h3>
+                <p className="text-2xl text-gray-600 mb-6">
+                  Your Form has been Submitted
+                </p>
+                <p className="text-xl text-primary font-semibold">
+                  We will Contact You Soon
+                </p>
+              </div>
+              
+              <div className="flex justify-center space-x-2">
+                {[...Array(5)].map((_, i) => (
+                  <div
+                    key={i}
+                    className="w-3 h-3 bg-primary rounded-full animate-pulse"
+                    style={{ animationDelay: `${i * 0.2}s` }}
+                  ></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 };
