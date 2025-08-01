@@ -9,7 +9,6 @@ from pydantic import BaseModel, Field, EmailStr
 from typing import List, Optional
 import uuid
 from datetime import datetime
-import pytz
 
 # Load environment variables
 load_dotenv()
@@ -43,7 +42,7 @@ api_router = APIRouter(prefix="/api")
 class StatusCheck(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(pytz.timezone('Asia/Kolkata')))
+    timestamp: datetime = Field(default_factory=datetime.now)
 
 class StatusCheckCreate(BaseModel):
     client_name: str
@@ -55,7 +54,7 @@ class ContactSubmission(BaseModel):
     email: EmailStr
     profession: Optional[str] = None
     message: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(pytz.timezone('Asia/Kolkata')))
+    timestamp: datetime = Field(default_factory=datetime.now)
     status: str = Field(default="new")  # new, read, replied
 
 class ContactSubmissionCreate(BaseModel):
@@ -93,8 +92,12 @@ async def submit_contact_form(contact_data: ContactSubmissionCreate):
     Submit a new contact form entry
     """
     try:
-        # Create contact submission object with current local time
-        contact_submission = ContactSubmission(**contact_data.dict())
+        # Create contact submission object with accurate current timestamp
+        current_time = datetime.now()
+        contact_submission = ContactSubmission(
+            **contact_data.dict(),
+            timestamp=current_time
+        )
         
         # Save to database
         result = await db.contacts.insert_one(contact_submission.dict())

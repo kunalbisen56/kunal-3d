@@ -98,58 +98,55 @@ const ContactSection = () => {
     });
   };
 
-  const playCongratulationSound = () => {
+  const playGentleCongratulationSound = () => {
     try {
-      // Create audio context for soft congratulation sound
+      // Create audio context for gentle congratulation sound with fade-in
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       
-      // Create a gentle, congratulatory melody
+      // Create a warm, congratulatory melody
       const oscillator = audioContext.createOscillator();
       const gainNode = audioContext.createGain();
       
       oscillator.connect(gainNode);
       gainNode.connect(audioContext.destination);
       
-      // Set initial volume to very low for gentle fade-in
+      // Start with completely silent volume for gentle fade-in
       gainNode.gain.setValueAtTime(0, audioContext.currentTime);
       
-      // Create a pleasant congratulation melody - C major chord progression
-      const frequencies = [261.63, 329.63, 392.00, 523.25]; // C4, E4, G4, C5
-      let currentNote = 0;
+      // Create a beautiful congratulation melody - Major chord progression
+      const frequencies = [
+        { freq: 261.63, time: 0.0 },    // C4
+        { freq: 329.63, time: 0.3 },    // E4
+        { freq: 392.00, time: 0.6 },    // G4
+        { freq: 523.25, time: 0.9 },    // C5 (higher octave)
+        { freq: 659.25, time: 1.2 }     // E5 (final celebratory note)
+      ];
       
-      const playNextNote = () => {
-        if (currentNote < frequencies.length) {
-          oscillator.frequency.setValueAtTime(frequencies[currentNote], audioContext.currentTime + currentNote * 0.4);
-          
-          // Gentle fade-in for each note
-          gainNode.gain.linearRampToValueAtTime(0.02, audioContext.currentTime + currentNote * 0.4 + 0.1);
-          gainNode.gain.linearRampToValueAtTime(0.01, audioContext.currentTime + currentNote * 0.4 + 0.3);
-          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + currentNote * 0.4 + 0.4);
-          
-          currentNote++;
-        }
-      };
-      
-      // Set oscillator type for warmer sound
+      // Set oscillator to sine wave for warm, gentle sound
       oscillator.type = 'sine';
       oscillator.start();
       
-      // Play notes with gentle timing
-      for (let i = 0; i < frequencies.length; i++) {
+      // Play each note with gentle fade-in and fade-out
+      frequencies.forEach((note, index) => {
         setTimeout(() => {
-          oscillator.frequency.setValueAtTime(frequencies[i], audioContext.currentTime);
+          // Set frequency
+          oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime);
+          
+          // Gentle fade-in for each note (starts very quiet)
           gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-          gainNode.gain.linearRampToValueAtTime(0.015, audioContext.currentTime + 0.1);
-          gainNode.gain.linearRampToValueAtTime(0.005, audioContext.currentTime + 0.3);
-          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.4);
-        }, i * 300);
-      }
+          gainNode.gain.linearRampToValueAtTime(0.008, audioContext.currentTime + 0.1); // Very soft start
+          gainNode.gain.linearRampToValueAtTime(0.015, audioContext.currentTime + 0.2); // Gentle increase
+          gainNode.gain.linearRampToValueAtTime(0.008, audioContext.currentTime + 0.25); // Gentle decrease
+          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3); // Fade out
+          
+        }, note.time * 1000);
+      });
       
-      // Stop the oscillator after all notes
+      // Final fade-out and stop
       setTimeout(() => {
-        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.2);
-        oscillator.stop(audioContext.currentTime + 0.3);
-      }, frequencies.length * 300);
+        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
+        oscillator.stop(audioContext.currentTime + 0.5);
+      }, 1600); // After all notes have played
       
     } catch (error) {
       console.log('Audio not supported:', error);
@@ -158,7 +155,7 @@ const ContactSection = () => {
 
   const showSuccessAnimation = () => {
     setShowSuccess(true);
-    playCongratulationSound();
+    playGentleCongratulationSound();
     
     // Paper spreading animation
     gsap.fromTo('.success-modal', {
@@ -173,7 +170,7 @@ const ContactSection = () => {
       ease: "back.out(1.7)"
     });
 
-    // Paper particles animation
+    // Paper particles animation (no dots - only paper particles)
     gsap.fromTo('.paper-particle', {
       scale: 0,
       opacity: 0,
@@ -440,13 +437,13 @@ const ContactSection = () => {
         </div>
       </div>
 
-      {/* Success Animation Modal */}
+      {/* Success Animation Modal - No Dot Animation, Only Paper Particles */}
       {showSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="success-modal relative bg-white rounded-3xl p-12 max-w-2xl mx-4 text-center shadow-2xl">
-            {/* Paper Particles */}
+            {/* Paper Particles Only - No Dots */}
             <div className="absolute inset-0 overflow-hidden rounded-3xl">
-              {[...Array(20)].map((_, i) => (
+              {[...Array(15)].map((_, i) => (
                 <div
                   key={i}
                   className="paper-particle absolute w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-sm"
@@ -459,7 +456,7 @@ const ContactSection = () => {
               ))}
             </div>
             
-            {/* Success Content */}
+            {/* Success Content - Clean and Simple */}
             <div className="success-text relative z-10">
               <div className="mb-8">
                 <div className="w-24 h-24 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-6 animate-bounce">
