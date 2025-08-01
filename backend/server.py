@@ -92,8 +92,8 @@ async def submit_contact_form(contact_data: ContactSubmissionCreate):
     Submit a new contact form entry
     """
     try:
-        # Create contact submission object with accurate current timestamp
-        current_time = datetime.now()
+        # Create contact submission object with accurate current UTC timestamp
+        current_time = datetime.now(timezone.utc)
         contact_submission = ContactSubmission(
             **contact_data.dict(),
             timestamp=current_time
