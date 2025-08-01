@@ -54,7 +54,7 @@ class ContactSubmission(BaseModel):
     email: EmailStr
     profession: Optional[str] = None
     message: str
-    timestamp: datetime = Field(default_factory=datetime.now)
+    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     status: str = Field(default="new")  # new, read, replied
 
 class ContactSubmissionCreate(BaseModel):
