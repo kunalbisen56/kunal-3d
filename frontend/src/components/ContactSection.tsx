@@ -170,19 +170,7 @@ const ContactSection = () => {
       ease: "back.out(1.7)"
     });
 
-    // Paper particles animation (no dots - only paper particles)
-    gsap.fromTo('.paper-particle', {
-      scale: 0,
-      opacity: 0,
-      rotation: 0
-    }, {
-      scale: 1,
-      opacity: 1,
-      rotation: 360,
-      duration: 1.2,
-      stagger: 0.1,
-      ease: "power2.out"
-    });
+
 
     // Text reveal animation
     gsap.fromTo('.success-text', {
