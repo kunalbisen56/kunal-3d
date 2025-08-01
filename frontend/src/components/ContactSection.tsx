@@ -425,24 +425,10 @@ const ContactSection = () => {
         </div>
       </div>
 
-      {/* Success Animation Modal - No Dot Animation, Only Paper Particles */}
+      {/* Success Animation Modal - Clean Success Message */}
       {showSuccess && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
           <div className="success-modal relative bg-white rounded-3xl p-12 max-w-2xl mx-4 text-center shadow-2xl">
-            {/* Paper Particles Only - No Dots */}
-            <div className="absolute inset-0 overflow-hidden rounded-3xl">
-              {[...Array(15)].map((_, i) => (
-                <div
-                  key={i}
-                  className="paper-particle absolute w-4 h-4 bg-gradient-to-r from-primary to-accent rounded-sm"
-                  style={{
-                    left: `${Math.random() * 100}%`,
-                    top: `${Math.random() * 100}%`,
-                    animationDelay: `${i * 0.1}s`
-                  }}
-                ></div>
-              ))}
-            </div>
             
             {/* Success Content - Clean and Simple */}
             <div className="success-text relative z-10">
