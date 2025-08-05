@@ -38,8 +38,18 @@ const Footer = () => {
   }, []);
   const scrollToSection = (href: string) => {
     if (href === '/video') {
-      // Redirect to Video page
-      window.location.href = href;
+      // Navigate to Home page and scroll to "Watch My Introduction" section
+      window.location.href = '/#video';
+      setTimeout(() => {
+        // Focus on the "Watch My Introduction" area specifically
+        const element = document.querySelector('#video h3');
+        if (element) {
+          element.scrollIntoView({
+            behavior: 'smooth',
+            block: 'center'
+          });
+        }
+      }, 100);
     } else {
       // Scroll to section on current page
       const element = document.querySelector(href);
