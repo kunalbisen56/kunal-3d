@@ -37,11 +37,17 @@ const Footer = () => {
     });
   }, []);
   const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({
-        behavior: 'smooth'
-      });
+    if (href === '/video') {
+      // Redirect to Video page
+      window.location.href = href;
+    } else {
+      // Scroll to section on current page
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({
+          behavior: 'smooth'
+        });
+      }
     }
   };
   const navItems = [{
