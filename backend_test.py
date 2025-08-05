@@ -285,15 +285,188 @@ def test_individual_contact_retrieval():
         print(f"❌ FAILED: Error during individual contact retrieval test: {e}")
         return False
 
+def test_status_update():
+    """Test updating contact status via PATCH endpoint"""
+    print("\n🔄 TESTING STATUS UPDATE...")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        return False
+    
+    api_base = f"{backend_url}/api"
+    
+    # First get all contacts to find one to test with
+    try:
+        response = requests.get(f"{api_base}/contact", timeout=10)
+        if response.status_code != 200:
+            print("❌ FAILED: Could not retrieve contacts for status update test")
+            return False
+        
+        contacts = response.json()
+        if not contacts:
+            print("❌ FAILED: No contacts available for status update test")
+            return False
+        
+        # Test with the first contact
+        test_contact_id = contacts[0]['id']
+        original_status = contacts[0].get('status', 'new')
+        print(f"🆔 Testing status update for contact ID: {test_contact_id}")
+        print(f"📊 Original status: {original_status}")
+        
+        # Test updating to 'read' status
+        new_status = 'read' if original_status != 'read' else 'replied'
+        print(f"🔄 Updating status to: {new_status}")
+        
+        response = requests.patch(
+            f"{api_base}/contact/{test_contact_id}/status",
+            params={"status": new_status},
+            timeout=10
+        )
+        
+        if response.status_code != 200:
+            print(f"❌ FAILED: Status update failed with status {response.status_code}")
+            print(f"Response: {response.text}")
+            return False
+        
+        update_response = response.json()
+        print(f"✅ SUCCESS: Status update response: {update_response}")
+        
+        # Verify the status was actually updated
+        response = requests.get(f"{api_base}/contact/{test_contact_id}", timeout=10)
+        if response.status_code != 200:
+            print("❌ FAILED: Could not retrieve contact to verify status update")
+            return False
+        
+        updated_contact = response.json()
+        if updated_contact['status'] != new_status:
+            print(f"❌ FAILED: Status not updated. Expected '{new_status}', got '{updated_contact['status']}'")
+            return False
+        
+        print(f"✅ SUCCESS: Status successfully updated to '{new_status}'")
+        
+        # Test invalid status
+        print("🧪 Testing invalid status...")
+        response = requests.patch(
+            f"{api_base}/contact/{test_contact_id}/status",
+            params={"status": "invalid_status"},
+            timeout=10
+        )
+        
+        if response.status_code == 400:
+            print("✅ SUCCESS: Invalid status properly rejected with 400 error")
+        else:
+            print(f"❌ FAILED: Invalid status should return 400, got {response.status_code}")
+            return False
+        
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error during status update test: {e}")
+        return False
+
+def test_database_integration():
+    """Test MongoDB connection and data persistence"""
+    print("\n💾 TESTING DATABASE INTEGRATION...")
+    print("=" * 60)
+    
+    backend_url = get_backend_url()
+    if not backend_url:
+        return False
+    
+    api_base = f"{backend_url}/api"
+    
+    try:
+        # Submit multiple contacts to test persistence
+        test_contacts = [
+            {
+                "name": "Alice Cooper",
+                "email": "alice.cooper@example.com", 
+                "profession": "Marketing Manager",
+                "message": "I'd like to discuss a marketing collaboration opportunity."
+            },
+            {
+                "name": "Bob Wilson",
+                "email": "bob.wilson@example.com",
+                "profession": "Graphic Designer", 
+                "message": "Interested in your design services for a new project."
+            }
+        ]
+        
+        submitted_ids = []
+        
+        print(f"📤 Submitting {len(test_contacts)} test contacts...")
+        for i, contact_data in enumerate(test_contacts):
+            response = requests.post(
+                f"{api_base}/contact",
+                json=contact_data,
+                headers={"Content-Type": "application/json"},
+                timeout=10
+            )
+            
+            if response.status_code != 200:
+                print(f"❌ FAILED: Could not submit test contact {i+1}")
+                return False
+            
+            response_data = response.json()
+            submitted_ids.append(response_data['contact_id'])
+            print(f"✅ Contact {i+1} submitted with ID: {response_data['contact_id']}")
+        
+        # Verify all contacts are retrievable
+        print("📥 Verifying data persistence...")
+        response = requests.get(f"{api_base}/contact", timeout=10)
+        if response.status_code != 200:
+            print("❌ FAILED: Could not retrieve contacts from database")
+            return False
+        
+        all_contacts = response.json()
+        found_contacts = 0
+        
+        for contact_id in submitted_ids:
+            for contact in all_contacts:
+                if contact['id'] == contact_id:
+                    found_contacts += 1
+                    break
+        
+        if found_contacts != len(submitted_ids):
+            print(f"❌ FAILED: Only found {found_contacts}/{len(submitted_ids)} submitted contacts")
+            return False
+        
+        print(f"✅ SUCCESS: All {len(submitted_ids)} contacts persisted correctly in database")
+        
+        # Test data integrity across multiple submissions
+        print("🔍 Verifying data integrity...")
+        for i, contact_id in enumerate(submitted_ids):
+            response = requests.get(f"{api_base}/contact/{contact_id}", timeout=10)
+            if response.status_code != 200:
+                print(f"❌ FAILED: Could not retrieve contact {i+1} individually")
+                return False
+            
+            contact = response.json()
+            expected = test_contacts[i]
+            
+            if (contact['name'] != expected['name'] or 
+                contact['email'] != expected['email'] or
+                contact['message'] != expected['message']):
+                print(f"❌ FAILED: Data integrity issue with contact {i+1}")
+                return False
+        
+        print("✅ SUCCESS: Data integrity verified across all submissions")
+        return True
+        
+    except Exception as e:
+        print(f"❌ FAILED: Error during database integration test: {e}")
+        return False
+
 def main():
     """Run all backend tests"""
-    print("🚀 STARTING BACKEND API TIMESTAMP TESTING")
+    print("🚀 STARTING COMPREHENSIVE BACKEND CONTACT FORM TESTING")
     print("=" * 80)
     
     all_tests_passed = True
     
-    # Test 1: Contact API timestamp functionality
-    print("\n📝 TEST 1: Contact Form Timestamp Fix")
+    # Test 1: Contact Form Submission and Data Retrieval
+    print("\n📝 TEST 1: Contact Form Submission & Data Retrieval")
     if not test_contact_api_timestamp():
         all_tests_passed = False
     
@@ -302,15 +475,27 @@ def main():
     if not test_individual_contact_retrieval():
         all_tests_passed = False
     
+    # Test 3: Status update functionality
+    print("\n📝 TEST 3: Status Update Functionality")
+    if not test_status_update():
+        all_tests_passed = False
+    
+    # Test 4: Database integration and persistence
+    print("\n📝 TEST 4: Database Integration & Persistence")
+    if not test_database_integration():
+        all_tests_passed = False
+    
     print("\n" + "=" * 80)
     if all_tests_passed:
-        print("🎉 ALL TESTS PASSED! Contact API timestamp fix is working correctly.")
-        print("✅ UTC timestamps are being saved and retrieved properly")
-        print("✅ Timestamp format is ISO 8601 compatible")
-        print("✅ Timestamp accuracy is within acceptable range")
+        print("🎉 ALL TESTS PASSED! Contact form backend functionality is working correctly.")
+        print("✅ Contact form submissions are saved with accurate UTC timestamps")
+        print("✅ All contact form fields (name, email, profession, message) are properly stored")
+        print("✅ Admin endpoints return saved contact data correctly")
+        print("✅ Status management is working properly")
+        print("✅ MongoDB connection and data persistence verified")
         print("✅ All API endpoints are functioning correctly")
     else:
-        print("❌ SOME TESTS FAILED! Contact API timestamp fix needs attention.")
+        print("❌ SOME TESTS FAILED! Contact form backend needs attention.")
     
     print("=" * 80)
     return all_tests_passed
