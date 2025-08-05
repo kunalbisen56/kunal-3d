@@ -202,7 +202,7 @@ const ContactSection = () => {
 
   const showSuccessAnimation = () => {
     setShowSuccess(true);
-    playGentleCongratulationSound();
+    playLoudCongratulationSound();
     
     // Paper spreading animation
     gsap.fromTo('.success-modal', {
