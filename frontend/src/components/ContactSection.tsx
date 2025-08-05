@@ -57,10 +57,10 @@ const ContactSection = () => {
       }
     });
 
-    // Submit button animation
+    // Submit button animation - Ensure button is always visible
     gsap.fromTo('.submit-btn', {
-      scale: 0,
-      opacity: 0
+      scale: 0.8,
+      opacity: 0.8
     }, {
       scale: 1,
       opacity: 1,
