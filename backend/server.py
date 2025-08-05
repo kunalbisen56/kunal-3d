@@ -163,6 +163,9 @@ async def update_contact_status(contact_id: str, status: str):
         else:
             raise HTTPException(status_code=404, detail="Contact submission not found")
             
+    except HTTPException:
+        # Re-raise HTTP exceptions (like 400, 404) without wrapping in 500
+        raise
     except Exception as e:
         logger.error(f"Error updating contact status: {str(e)}")
         raise HTTPException(status_code=500, detail="Internal server error")
