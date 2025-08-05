@@ -48,6 +48,9 @@ const Footer = () => {
     name: 'Home',
     href: '#hero'
   }, {
+    name: 'Video',
+    href: '/video'
+  }, {
     name: 'About',
     href: '#about'
   }, {
