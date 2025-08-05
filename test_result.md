@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Implement 4 website updates: Fix Home button navigation, integrate Video page into home page, enhance contact form sound, and add Video button to footer"
+user_problem_statement: "Fix 2 website issues: 1) Ensure Video section is displayed directly below Home section on main page (already implemented - needs verification) 2) Fix Send Message button disappearing issue in Contact form - button must always be visible in its correct position"
 
 frontend:
   - task: "Website Navigation and UI Updates"
