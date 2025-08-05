@@ -98,37 +98,8 @@ const ContactSection = () => {
     });
   };
 
-  // List of professions in exact order specified
-  const professions = [
-    'Student',
-    'Photographer',
-    'Trainer/gym coach',
-    'Video Editor',
-    'Blogger',
-    'Graphic Designer',
-    'Sales Manager',
-    'Education',
-    'Doctor',
-    'Musician',
-    'Game Developer',
-    'Chef/Cook',
-    'Social Media Manager',
-    'Artist',
-    'Civil Servant',
-    'Lawyer',
-    'Painter',
-    'Shopkeeper',
-    'Healthcare',
-    'Plumber',
-    'Electrician',
-    'Bank Accountant',
-    'Farmer',
-    'Reporter',
-    'Journalist',
-    'Dancer',
-    'Entrepreneur',
-    'Marketing Manager'
-  ];
+  // List of professions - REMOVED as per user request
+  const professions: string[] = [];
 
   const playLoudCongratulationSound = () => {
     try {
