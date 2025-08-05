@@ -102,7 +102,7 @@
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
 
-user_problem_statement: "Fix 2 website issues: 1) Ensure Video section is displayed directly below Home section on main page (already implemented - needs verification) 2) Fix Send Message button disappearing issue in Contact form - button must always be visible in its correct position"
+user_problem_statement: "Two specific updates: 1) Fix Footer Video button to redirect to Home page and focus on 'Watch My Introduction' section under 'Introduction Video' 2) Convert Contact form Profession field from text input to dropdown with 28 specific professions in exact order provided"
 
 frontend:
   - task: "Contact Form Send Message Button Fix"
