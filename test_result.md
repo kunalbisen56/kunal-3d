@@ -159,7 +159,8 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Website Navigation and UI Updates"
+    - "Contact Form Send Message Button Fix"
+    - "Video Section Display Position Verification"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
