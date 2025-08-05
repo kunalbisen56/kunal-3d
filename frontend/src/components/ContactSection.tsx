@@ -91,12 +91,44 @@ const ContactSection = () => {
     });
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
+
+  // List of professions in exact order specified
+  const professions = [
+    'Student',
+    'Photographer',
+    'Trainer/gym coach',
+    'Video Editor',
+    'Blogger',
+    'Graphic Designer',
+    'Sales Manager',
+    'Education',
+    'Doctor',
+    'Musician',
+    'Game Developer',
+    'Chef/Cook',
+    'Social Media Manager',
+    'Artist',
+    'Civil Servant',
+    'Lawyer',
+    'Painter',
+    'Shopkeeper',
+    'Healthcare',
+    'Plumber',
+    'Electrician',
+    'Bank Accountant',
+    'Farmer',
+    'Reporter',
+    'Journalist',
+    'Dancer',
+    'Entrepreneur',
+    'Marketing Manager'
+  ];
 
   const playLoudCongratulationSound = () => {
     try {
