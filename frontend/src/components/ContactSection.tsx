@@ -98,55 +98,102 @@ const ContactSection = () => {
     });
   };
 
-  const playGentleCongratulationSound = () => {
+  const playLoudCongratulationSound = () => {
     try {
-      // Create audio context for gentle congratulation sound with fade-in
+      // Create audio context for loud, attractive congratulation sound
       const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
       
-      // Create a warm, congratulatory melody
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
+      // Create a powerful, celebratory fanfare
+      const oscillator1 = audioContext.createOscillator();
+      const oscillator2 = audioContext.createOscillator();
+      const oscillator3 = audioContext.createOscillator();
       
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
+      const gainNode1 = audioContext.createGain();
+      const gainNode2 = audioContext.createGain();
+      const gainNode3 = audioContext.createGain();
+      const masterGain = audioContext.createGain();
       
-      // Start with completely silent volume for gentle fade-in
-      gainNode.gain.setValueAtTime(0, audioContext.currentTime);
+      // Connect oscillators to their gain nodes
+      oscillator1.connect(gainNode1);
+      oscillator2.connect(gainNode2);
+      oscillator3.connect(gainNode3);
       
-      // Create a beautiful congratulation melody - Major chord progression
-      const frequencies = [
-        { freq: 261.63, time: 0.0 },    // C4
-        { freq: 329.63, time: 0.3 },    // E4
-        { freq: 392.00, time: 0.6 },    // G4
-        { freq: 523.25, time: 0.9 },    // C5 (higher octave)
-        { freq: 659.25, time: 1.2 }     // E5 (final celebratory note)
+      // Connect gain nodes to master gain
+      gainNode1.connect(masterGain);
+      gainNode2.connect(masterGain);
+      gainNode3.connect(masterGain);
+      masterGain.connect(audioContext.destination);
+      
+      // Set oscillator types for rich, celebratory sound
+      oscillator1.type = 'sawtooth'; // Rich harmonic content
+      oscillator2.type = 'square';   // Bold, attention-grabbing
+      oscillator3.type = 'triangle'; // Smooth fundamental
+      
+      // Louder volume settings
+      masterGain.gain.setValueAtTime(0, audioContext.currentTime);
+      
+      // Create an impressive celebration fanfare - Victory chord progression
+      const celebrationSequence = [
+        // Opening fanfare burst
+        { time: 0.0, freq1: 523.25, freq2: 659.25, freq3: 783.99, vol: 0.25 }, // C5-E5-G5
+        { time: 0.15, freq1: 587.33, freq2: 698.46, freq3: 880.00, vol: 0.35 }, // D5-F5-A5
+        { time: 0.3, freq1: 659.25, freq2: 783.99, freq3: 987.77, vol: 0.4 },  // E5-G5-B5
+        
+        // Triumphant climax
+        { time: 0.5, freq1: 1046.50, freq2: 1318.51, freq3: 1567.98, vol: 0.5 }, // C6-E6-G6 (high octave)
+        { time: 0.8, freq1: 1174.66, freq2: 1396.91, freq3: 1760.00, vol: 0.55 }, // D6-F6-A6
+        { time: 1.1, freq1: 1318.51, freq2: 1567.98, freq3: 1975.53, vol: 0.6 }, // E6-G6-B6
+        
+        // Grand finale
+        { time: 1.4, freq1: 2093.00, freq2: 2637.02, freq3: 3135.96, vol: 0.65 }, // C7-E7-G7 (very high)
+        { time: 1.8, freq1: 1046.50, freq2: 1318.51, freq3: 1567.98, vol: 0.7 }, // Return to C6 chord
       ];
       
-      // Set oscillator to sine wave for warm, gentle sound
-      oscillator.type = 'sine';
-      oscillator.start();
+      // Start all oscillators
+      oscillator1.start();
+      oscillator2.start();
+      oscillator3.start();
       
-      // Play each note with gentle fade-in and fade-out
-      frequencies.forEach((note, index) => {
+      // Play the celebration sequence
+      celebrationSequence.forEach((note, index) => {
         setTimeout(() => {
-          // Set frequency
-          oscillator.frequency.setValueAtTime(note.freq, audioContext.currentTime);
+          // Set frequencies for all oscillators
+          oscillator1.frequency.setValueAtTime(note.freq1, audioContext.currentTime);
+          oscillator2.frequency.setValueAtTime(note.freq2, audioContext.currentTime);
+          oscillator3.frequency.setValueAtTime(note.freq3, audioContext.currentTime);
           
-          // Gentle fade-in for each note (starts very quiet)
-          gainNode.gain.setValueAtTime(0, audioContext.currentTime);
-          gainNode.gain.linearRampToValueAtTime(0.008, audioContext.currentTime + 0.1); // Very soft start
-          gainNode.gain.linearRampToValueAtTime(0.015, audioContext.currentTime + 0.2); // Gentle increase
-          gainNode.gain.linearRampToValueAtTime(0.008, audioContext.currentTime + 0.25); // Gentle decrease
-          gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3); // Fade out
+          // Set individual oscillator volumes
+          gainNode1.gain.setValueAtTime(note.vol * 0.4, audioContext.currentTime);
+          gainNode2.gain.setValueAtTime(note.vol * 0.3, audioContext.currentTime);
+          gainNode3.gain.setValueAtTime(note.vol * 0.3, audioContext.currentTime);
+          
+          // Quick attack for attention-grabbing effect
+          masterGain.gain.setValueAtTime(0, audioContext.currentTime);
+          masterGain.gain.linearRampToValueAtTime(note.vol, audioContext.currentTime + 0.05); // Fast attack
+          masterGain.gain.linearRampToValueAtTime(note.vol * 0.8, audioContext.currentTime + 0.1); // Sustain
+          masterGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.25); // Decay
           
         }, note.time * 1000);
       });
       
-      // Final fade-out and stop
+      // Add some reverb-like effect with delayed notes
       setTimeout(() => {
-        gainNode.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.3);
-        oscillator.stop(audioContext.currentTime + 0.5);
-      }, 1600); // After all notes have played
+        // Echo effect - quieter repeat of the finale
+        oscillator1.frequency.setValueAtTime(1046.50, audioContext.currentTime); // C6
+        oscillator2.frequency.setValueAtTime(1318.51, audioContext.currentTime); // E6
+        oscillator3.frequency.setValueAtTime(1567.98, audioContext.currentTime); // G6
+        
+        masterGain.gain.setValueAtTime(0, audioContext.currentTime);
+        masterGain.gain.linearRampToValueAtTime(0.3, audioContext.currentTime + 0.1);
+        masterGain.gain.linearRampToValueAtTime(0, audioContext.currentTime + 0.4);
+      }, 2200);
+      
+      // Final stop for all oscillators
+      setTimeout(() => {
+        oscillator1.stop(audioContext.currentTime + 0.1);
+        oscillator2.stop(audioContext.currentTime + 0.1);
+        oscillator3.stop(audioContext.currentTime + 0.1);
+      }, 2800);
       
     } catch (error) {
       console.log('Audio not supported:', error);
