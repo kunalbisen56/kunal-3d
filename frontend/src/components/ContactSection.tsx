@@ -381,19 +381,14 @@ const ContactSection = () => {
                 <label className="block text-sm font-medium text-foreground mb-2">
                   Profession
                 </label>
-                <select
+                <input
+                  type="text"
                   name="profession"
                   value={formData.profession}
                   onChange={handleInputChange}
-                  className="w-full px-4 py-3 glass rounded-lg border border-muted/20 focus:border-primary focus:outline-none transition-colors duration-300 bg-background/50 text-foreground"
-                >
-                  <option value="">Select Your Profession</option>
-                  {professions.map((profession, index) => (
-                    <option key={index} value={profession}>
-                      {profession}
-                    </option>
-                  ))}
-                </select>
+                  placeholder="Enter Your Profession"
+                  className="w-full px-4 py-3 glass rounded-lg border border-muted/20 focus:border-primary focus:outline-none transition-colors duration-300 bg-background/50 text-foreground placeholder-muted-foreground"
+                />
               </div>
               <div className="form-input">
                 <label className="block text-sm font-medium text-foreground mb-2">
