@@ -91,15 +91,12 @@ const ContactSection = () => {
     });
   }, []);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
     });
   };
-
-  // List of professions - REMOVED as per user request
-  const professions: string[] = [];
 
   const playLoudCongratulationSound = () => {
     try {
