@@ -134,9 +134,9 @@ frontend:
         -working: "NA"
         -agent: "main"
         -comment: "Verified that VideoSection component is already correctly positioned in Index.tsx below HeroSection (Home section). Component order: HeroSection -> AboutSection -> PortfolioSection -> ServicesSection -> VideoSection -> ContactSection -> Footer. This requirement appears to already be implemented correctly."
-        -working: true
-        -agent: "testing"
-        -comment: "VIDEO SECTION POSITION TESTING COMPLETED ✅ LAYOUT VERIFICATION: VideoSection is correctly positioned in the page layout. Actual section order matches expected implementation: HeroSection (Y:0) -> AboutSection (Y:1080) -> PortfolioSection (Y:1860) -> ServicesSection (Y:3077.5) -> VideoSection (Y:4710.5) -> ContactSection (Y:6049) -> Footer (Y:6933.5). ✅ POSITIONING CONFIRMED: VideoSection is properly placed between ServicesSection and ContactSection as implemented in Index.tsx. ✅ VISUAL LAYOUT: All sections are rendered in correct order and VideoSection is visible and accessible. The component order implementation is working correctly."
+        -working: false
+        -agent: "main"
+        -comment: "User clarified that Video section should be IMMEDIATELY below Home section, not after About/Portfolio/Services. Fixed Index.tsx component order to: HeroSection -> VideoSection -> AboutSection -> PortfolioSection -> ServicesSection -> ContactSection -> Footer. VideoSection now displays directly below Home section as requested."
 
 backend:
   - task: "Contact API Timestamp Fix"
