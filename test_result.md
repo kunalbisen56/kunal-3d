@@ -105,38 +105,29 @@
 user_problem_statement: "Two specific updates: 1) Fix Footer Video button to redirect to Home page and focus on 'Watch My Introduction' section under 'Introduction Video' 2) Convert Contact form Profession field from text input to dropdown with 28 specific professions in exact order provided"
 
 frontend:
-  - task: "Contact Form Send Message Button Fix"
-    implemented: true
-    working: true
-    file: "/app/frontend/src/components/ContactSection.tsx"
-    stuck_count: 0
-    priority: "high"
-    needs_retesting: false
-    status_history:
-        -working: false
-        -agent: "main"
-        -comment: "User reported Send Message button sometimes disappears from Contact form. Issue identified in GSAP animation setup - button starts with scale:0 and opacity:0, only becomes visible when ScrollTrigger animation runs. If ScrollTrigger fails, button remains hidden. Need to fix animation to ensure button is always visible."
-        -working: "NA"
-        -agent: "main"
-        -comment: "Fixed the GSAP animation issue in ContactSection.tsx. Changed submit button initial animation values from scale:0 and opacity:0 to scale:0.8 and opacity:0.8. This ensures the button is always visible even if ScrollTrigger doesn't fire, while still providing the desired animation effect when it does trigger. Button should now be visible at all times."
-        -working: true
-        -agent: "testing"
-        -comment: "COMPREHENSIVE CONTACT FORM BUTTON TESTING COMPLETED ✅ CRITICAL FIX VERIFICATION: The GSAP animation fix is working perfectly. Button maintains opacity:0.8 and scale:0.8 initially, ensuring it's always visible. ✅ VISIBILITY TESTS: All 5 comprehensive tests passed - Initial visibility (opacity >= 0.8), Quick scroll test, Page refresh test, Multiple viewport sizes (Desktop/Tablet/Mobile), and Button functionality. ✅ ANIMATION FIX CONFIRMED: Button starts with scale:0.8/opacity:0.8 instead of scale:0/opacity:0, preventing disappearing issue. ✅ USER EXPERIENCE: Button remains visible and clickable at all times across different scenarios. The main agent's implementation successfully resolved the disappearing button issue."
-        
-  - task: "Video Section Display Position Verification"
+  - task: "Footer Video Button Navigation Fix"
     implemented: true
     working: "NA"
-    file: "/app/frontend/src/pages/Index.tsx, /app/frontend/src/components/VideoSection.tsx"
+    file: "/app/frontend/src/components/Footer.tsx"
     stuck_count: 0
-    priority: "medium"
+    priority: "high"
     needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "main"
-        -comment: "Verified that VideoSection component is already correctly positioned in Index.tsx below HeroSection (Home section). Component order: HeroSection -> AboutSection -> PortfolioSection -> ServicesSection -> VideoSection -> ContactSection -> Footer. This requirement appears to already be implemented correctly."
-        -working: false
+        -comment: "Fixed Footer Video button to navigate to Home page and focus on 'Watch My Introduction' section. Changed href from '/video' page redirect to '/#video' with specific focus on the h3 element containing 'Watch My Introduction' text using scrollIntoView with center block positioning."
+
+  - task: "Contact Form Profession Dropdown"
+    implemented: true
+    working: "NA"
+    file: "/app/frontend/src/components/ContactSection.tsx"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true  
+    status_history:
+        -working: "NA"
         -agent: "main"
-        -comment: "User clarified that Video section should be IMMEDIATELY below Home section, not after About/Portfolio/Services. Fixed Index.tsx component order to: HeroSection -> VideoSection -> AboutSection -> PortfolioSection -> ServicesSection -> ContactSection -> Footer. VideoSection now displays directly below Home section as requested."
+        -comment: "Converted Contact form Profession field from text input to select dropdown with 28 professions in exact order specified: Student, Photographer, Trainer/gym coach, Video Editor, Blogger, Graphic Designer, Sales Manager, Education, Doctor, Musician, Game Developer, Chef/Cook, Social Media Manager, Artist, Civil Servant, Lawyer, Painter, Shopkeeper, Healthcare, Plumber, Electrician, Bank Accountant, Farmer, Reporter, Journalist, Dancer, Entrepreneur, Marketing Manager. Added proper TypeScript support for select element in handleInputChange function."
 
 backend:
   - task: "Contact API Timestamp Fix"
