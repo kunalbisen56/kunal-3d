@@ -125,11 +125,11 @@ frontend:
         
   - task: "Video Section Display Position Verification"
     implemented: true
-    working: true
+    working: "NA"
     file: "/app/frontend/src/pages/Index.tsx, /app/frontend/src/components/VideoSection.tsx"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         -working: "NA"
         -agent: "main"
