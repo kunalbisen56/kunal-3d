@@ -1,0 +1,22 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[dev]
+  command = "npm run dev"
+  port = 3000
+
+# Environment variables
+[context.production.environment]
+  VITE_REACT_APP_BACKEND_URL = "https://your-backend-url.railway.app"
+
+[context.deploy-preview.environment]
+  VITE_REACT_APP_BACKEND_URL = "https://your-backend-url.railway.app"

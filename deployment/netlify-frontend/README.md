@@ -1,73 +1,122 @@
-# Welcome to your Lovable project
+# Kunal Bisen Portfolio - Frontend
 
-## Project info
+A modern, responsive portfolio website built with React, TypeScript, and Tailwind CSS.
 
-**URL**: https://lovable.dev/projects/332d81a2-6e95-4158-819a-8d123ddc5b4e
+## 🚀 Quick Start
 
-## How can I edit this code?
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/332d81a2-6e95-4158-819a-8d123ddc5b4e) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+### Installation
+```bash
+npm install
+# or
+yarn install
 ```
 
-**Edit a file directly in GitHub**
+### Development
+```bash
+npm run dev
+# or 
+yarn dev
+```
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### Build for Production
+```bash
+npm run build
+# or
+yarn build
+```
 
-**Use GitHub Codespaces**
+### Preview Production Build
+```bash
+npm run preview
+# or
+yarn preview
+```
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## 🌐 Netlify Deployment
 
-## What technologies are used for this project?
+### Method 1: GitHub Integration (Recommended)
+1. Push code to GitHub repository
+2. Connect repository to Netlify
+3. Set build command: `npm run build`
+4. Set publish directory: `dist`
+5. Add environment variable: `VITE_REACT_APP_BACKEND_URL`
 
-This project is built with:
+### Method 2: Manual Deployment
+1. Run `npm run build`
+2. Drag and drop `dist` folder to Netlify
+3. Configure environment variables in Netlify dashboard
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Build Settings
+```
+Build command: npm run build
+Publish directory: dist
+Node version: 18.x
+```
 
-## How can I deploy this project?
+## ⚙️ Environment Variables
 
-Simply open [Lovable](https://lovable.dev/projects/332d81a2-6e95-4158-819a-8d123ddc5b4e) and click on Share -> Publish.
+Create `.env` file in root directory:
+```
+VITE_REACT_APP_BACKEND_URL=https://your-backend-url.com
+```
 
-## Can I connect a custom domain to my Lovable project?
+For Netlify, add this in Site Settings > Environment Variables.
 
-Yes, you can!
+## 🎨 Features
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+- ✅ Responsive design
+- ✅ Interactive animations (GSAP)
+- ✅ Modern UI components
+- ✅ Contact form
+- ✅ Admin panel for viewing submissions
+- ✅ Portfolio showcase
+- ✅ Services section
+- ✅ Video introduction section
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## 🛠️ Tech Stack
+
+- **React 18** - UI framework
+- **TypeScript** - Type safety
+- **Vite** - Build tool
+- **Tailwind CSS** - Styling
+- **GSAP** - Animations
+- **React Router** - Navigation
+- **ShadCN/UI** - UI components
+
+## 📁 Project Structure
+
+```
+src/
+├── components/     # Reusable components
+├── pages/         # Page components  
+├── assets/        # Images, icons, etc.
+├── lib/           # Utility functions
+├── hooks/         # Custom React hooks
+└── types/         # TypeScript definitions
+```
+
+## 🔧 Configuration Files
+
+- `vite.config.ts` - Vite configuration
+- `tailwind.config.ts` - Tailwind CSS configuration  
+- `tsconfig.json` - TypeScript configuration
+- `netlify.toml` - Netlify deployment configuration
+
+## 🚨 Important Notes
+
+1. **Backend Integration**: Contact form requires backend deployment
+2. **Environment Variables**: Update `VITE_REACT_APP_BACKEND_URL` with your backend URL
+3. **CORS**: Ensure backend allows requests from your Netlify domain
+4. **Build Errors**: Check all imports and dependencies before deployment
+
+## 📞 Support
+
+For deployment issues:
+1. Check Netlify build logs
+2. Verify environment variables
+3. Test build locally with `npm run build`
+4. Ensure all dependencies are in package.json
