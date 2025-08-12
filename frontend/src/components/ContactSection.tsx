@@ -101,7 +101,7 @@ const ContactSection = () => {
   const playLoudCongratulationSound = () => {
     try {
       // Create audio context for loud, attractive congratulation sound
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
+      const audioContext = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
       
       // Create a powerful, celebratory fanfare
       const oscillator1 = audioContext.createOscillator();
