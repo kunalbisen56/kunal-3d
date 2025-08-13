@@ -185,6 +185,7 @@ test_plan:
   current_focus:
     - "Footer Video Button Navigation Fix"
     - "Contact Form Profession Dropdown"
+    - "Supabase Contact Form Backend Integration"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
