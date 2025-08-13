@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Backend API Testing Script for Contact Form Timestamp Fix
-Tests the /api/contact endpoints to verify UTC timestamp functionality
+Backend API Testing Script for Supabase Contact Form Integration
+Tests the /api/contact endpoints to verify Supabase database functionality
 """
 
 import requests
