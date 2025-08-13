@@ -7,7 +7,8 @@ interface ContactSubmission {
   email: string;
   profession?: string;
   message: string;
-  timestamp: string;
+  created_at: string;  // Changed from timestamp to created_at for Supabase
+  updated_at: string;  // Added updated_at field
   status: string;
 }
 
