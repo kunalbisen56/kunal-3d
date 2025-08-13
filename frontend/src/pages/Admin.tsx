@@ -149,7 +149,7 @@ const Admin = () => {
                         {contact.status.toUpperCase()}
                       </span>
                       <span className="text-sm text-muted-foreground">
-                        {formatDate(contact.timestamp)}
+                        {formatDate(contact.created_at)}
                       </span>
                     </div>
                   </div>
