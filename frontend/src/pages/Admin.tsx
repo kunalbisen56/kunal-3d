@@ -43,8 +43,12 @@ const Admin = () => {
   const updateStatus = async (contactId: string, newStatus: string) => {
     try {
       const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
-      const response = await fetch(`${backendUrl}/api/contact/${contactId}/status?status=${newStatus}`, {
-        method: 'PATCH'
+      const response = await fetch(`${backendUrl}/api/contact/${contactId}/status`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ status: newStatus })
       });
       
       if (response.ok) {
