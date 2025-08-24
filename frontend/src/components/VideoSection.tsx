@@ -69,7 +69,7 @@ const VideoSection = () => {
           <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
             <div className="absolute inset-0 glass rounded-2xl overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors duration-300 shadow-2xl">
               <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                <div className="text-center space-y-6">
+                <a href="https://youtu.be/pdC6dFg2Yfw?si=DW4G_yTJhSfEFvRc" target="_blank" rel="noopener noreferrer" className="text-center space-y-6">
                   <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 hover:scale-110 transition-transform duration-300 cursor-pointer group shadow-lg hover:shadow-primary/25">
                     <svg 
                       className="w-10 h-10 text-primary group-hover:text-white transition-colors duration-300" 
@@ -98,7 +98,7 @@ const VideoSection = () => {
                       <span>5 Minutes</span>
                     </span>
                   </div>
-                </div>
+                </a>
               </div>
             </div>
           </div>
