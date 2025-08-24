@@ -69,7 +69,7 @@ const VideoSection = () => {
           <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
             <iframe
               className="absolute top-0 left-0 w-full h-full rounded-2xl border-2 border-primary/20"
-              src="https://www.youtube.com/embed/pdC6dFg2Yfw"
+              src="https://www.youtube.com/embed/pdC6dFg2Yfw?autoplay=1&mute=1"
               title="YouTube video player"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               allowFullScreen
