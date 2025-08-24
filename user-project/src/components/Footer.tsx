@@ -53,9 +53,6 @@ const Footer = () => {
   }, {
     name: 'Projects',
     href: '#projects'
-  }, {
-    name: 'Contact',
-    href: '#contact'
   }];
   return <footer ref={footerRef} className="relative py-12 px-6 border-t border-muted/20">
       <div className="max-w-7xl mx-auto">
