@@ -67,40 +67,13 @@ const VideoSection = () => {
         {/* Introduction Video Frame */}
         <div ref={videoRef} className="w-full max-w-5xl mx-auto">
           <div className="relative w-full" style={{ paddingBottom: '56.25%' /* 16:9 aspect ratio */ }}>
-            <div className="absolute inset-0 glass rounded-2xl overflow-hidden border-2 border-primary/20 hover:border-primary/40 transition-colors duration-300 shadow-2xl">
-              <div className="w-full h-full bg-gradient-to-br from-primary/10 to-accent/10 flex items-center justify-center">
-                <a href="https://youtu.be/pdC6dFg2Yfw?si=DW4G_yTJhSfEFvRc" target="_blank" rel="noopener noreferrer" className="text-center space-y-6">
-                  <div className="w-24 h-24 bg-primary/20 rounded-full flex items-center justify-center mx-auto mb-6 hover:scale-110 transition-transform duration-300 cursor-pointer group shadow-lg hover:shadow-primary/25">
-                    <svg 
-                      className="w-10 h-10 text-primary group-hover:text-white transition-colors duration-300" 
-                      fill="currentColor" 
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M8 5v14l11-7z"/>
-                    </svg>
-                  </div>
-                  <h3 className="text-2xl font-semibold text-foreground">Watch My Introduction</h3>
-                  <p className="text-muted-foreground text-base max-w-md mx-auto">
-                    Discover my journey, expertise, and passion for web development. Learn about my approach to creating modern, user-focused digital experiences.
-                  </p>
-                  <div className="flex justify-center space-x-4 text-sm text-muted-foreground">
-                    <span className="flex items-center space-x-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
-                      </svg>
-                      <span>Professional Quality</span>
-                    </span>
-                    <span className="flex items-center space-x-1">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
-                        <path d="M12.5 7H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
-                      </svg>
-                      <span>5 Minutes</span>
-                    </span>
-                  </div>
-                </a>
-              </div>
-            </div>
+            <iframe
+              className="absolute top-0 left-0 w-full h-full rounded-2xl border-2 border-primary/20"
+              src="https://www.youtube.com/embed/pdC6dFg2Yfw"
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
           </div>
         </div>
 
