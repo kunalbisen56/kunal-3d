@@ -7,7 +7,7 @@ gsap.registerPlugin(ScrollTrigger);
 const testimonials = [
   {
     name: "Client 1",
-    role: "Founder",
+    role: "Founder Oliver Smith ( From Canada )",
     company: "",
     quote: "They delivered exactly what we needed—on time and on brand.",
     video_url: "/media/testimonials/client-1.mp4",
@@ -17,7 +17,7 @@ const testimonials = [
   },
   {
     name: "Client 2",
-    role: "Marketing Head",
+    role: "Marketing Head Riya Tiwari ( From India )",
     company: "",
     quote: "The website performance and design boosted our conversions.",
     video_url: "/media/testimonials/client-2.mp4",
@@ -27,7 +27,7 @@ const testimonials = [
   },
   {
     name: "Client 3",
-    role: "CTO",
+    role: "CTO Noah Davis ( From England )",
     company: "",
     quote: "Clean code, clear communication, and great results.",
     video_url: "/media/testimonials/client-3.mp4",
@@ -37,7 +37,7 @@ const testimonials = [
   },
   {
     name: "Client 4",
-    role: "Product Lead",
+    role: "Product Lead Isabella Garcia ( From Canada )",
     company: "",
     quote: "A professional partner who truly understands UX.",
     video_url: "/media/testimonials/client-4.mp4",
