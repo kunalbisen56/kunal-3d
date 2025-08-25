@@ -8,7 +8,7 @@ const testimonials = [
   {
     name: "Client 1",
     role: "Founder",
-    company: "Company A",
+    company: "",
     quote: "They delivered exactly what we needed—on time and on brand.",
     video_url: "/media/testimonials/client-1.mp4",
     poster_url: "/media/testimonials/client-1.jpg",
@@ -18,7 +18,7 @@ const testimonials = [
   {
     name: "Client 2",
     role: "Marketing Head",
-    company: "Company B",
+    company: "",
     quote: "The website performance and design boosted our conversions.",
     video_url: "/media/testimonials/client-2.mp4",
     poster_url: "/media/testimonials/client-2.jpg",
@@ -28,7 +28,7 @@ const testimonials = [
   {
     name: "Client 3",
     role: "CTO",
-    company: "Startup C",
+    company: "",
     quote: "Clean code, clear communication, and great results.",
     video_url: "/media/testimonials/client-3.mp4",
     poster_url: "/media/testimonials/client-3.jpg",
@@ -38,7 +38,7 @@ const testimonials = [
   {
     name: "Client 4",
     role: "Product Lead",
-    company: "Brand D",
+    company: "",
     quote: "A professional partner who truly understands UX.",
     video_url: "/media/testimonials/client-4.mp4",
     poster_url: "/media/testimonials/client-4.jpg",
@@ -185,7 +185,7 @@ const TestimonialsSection = () => {
               </div>
               <div className="testimonial-meta p-6 flex-grow">
                 <h3 className="font-bold text-lg text-foreground">{testimonial.name}</h3>
-                <p className="text-sm text-muted-foreground">{testimonial.role}, {testimonial.company}</p>
+                <p className="text-sm text-muted-foreground">{testimonial.role}{testimonial.company && `, ${testimonial.company}`}</p>
                 {testimonial.quote && (
                   <blockquote className="testimonial-quote mt-4 text-sm italic border-l-4 border-primary pl-4">
                     {testimonial.quote}
