@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/lib/supabaseClient';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -257,44 +258,31 @@ const ContactSection = () => {
     });
 
     try {
-      // Get backend URL from environment variables
-      const backendUrl = import.meta.env.VITE_REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
-      
-      if (!backendUrl) {
-        throw new Error('Backend URL not configured');
+      const { data, error } = await supabase
+        .from('contact_submissions')
+        .insert([
+          {
+            name: formData.name,
+            email: formData.email,
+            profession: formData.profession,
+            message: formData.message
+          }
+        ]);
+
+      if (error) {
+        throw error;
       }
 
-      // Submit form data to backend API
-      const response = await fetch(`${backendUrl}/api/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          profession: formData.profession || null,
-          message: formData.message
-        }),
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        profession: '',
+        message: ''
       });
 
-      const result = await response.json();
-
-      if (response.ok && result.success) {
-        // Reset form
-        setFormData({
-          name: '',
-          email: '',
-          profession: '',
-          message: ''
-        });
-
-        // Show success animation and message
-        showSuccessAnimation();
-
-      } else {
-        throw new Error(result.message || 'Failed to send message');
-      }
+      // Show success animation and message
+      showSuccessAnimation();
 
     } catch (error) {
       console.error('Error submitting contact form:', error);
