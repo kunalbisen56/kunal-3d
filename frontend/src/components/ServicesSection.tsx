@@ -2,12 +2,14 @@ import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { Code, Palette, Globe, ShoppingCart, Settings, Rocket } from 'lucide-react';
+import useClickSound from '@/hooks/useClickSound';
 
 gsap.registerPlugin(ScrollTrigger);
 
 const ServicesSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
   const lottieRef = useRef<HTMLDivElement>(null);
+  const playSound = useClickSound();
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -195,6 +197,7 @@ const ServicesSection = () => {
               <div 
                 key={service.id}
                 className="service-card group glass rounded-xl p-8 hover:glow-primary transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+                onClick={playSound}
               >
                 <div className="flex flex-col h-full">
                   <div className="mb-6">
