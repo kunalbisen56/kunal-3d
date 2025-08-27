@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -6,112 +6,102 @@ gsap.registerPlugin(ScrollTrigger);
 
 const testimonials = [
   {
-    name: "Client 1",
-    role: "Founder, Oliver Smith (From Canada)",
-    company: "",
+    name: "Oliver Smith",
+    role: "Founder (From Canada)",
     quote: "They delivered exactly what we needed—on time and on brand.",
-    video_url: "/media/testimonials/client-1.mp4",
-    poster_url: "/media/testimonials/client-1.jpg",
-    captions_vtt: "/media/testimonials/client-1.vtt",
-    duration_sec: 42,
+    imageUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20images/Oliver%20Smith%20image.jpg",
+    audioUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20audios/Oliver%20Smith%20Audio.mp3",
   },
   {
-    name: "Client 2",
-    role: "Marketing Head, Riya Tiwari (From India)",
-    company: "",
+    name: "Riya Tiwari",
+    role: "Marketing Head (From India)",
     quote: "The website performance and design boosted our conversions.",
-    video_url: "/media/testimonials/client-2.mp4",
-    poster_url: "/media/testimonials/client-2.jpg",
-    captions_vtt: "/media/testimonials/client-2.vtt",
-    duration_sec: 55,
+    imageUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20images/Riya%20Yiwari%20image.jpg",
+    audioUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20audios/Riya%20Tiwari%20Audio.mp3",
   },
   {
-    name: "Client 3",
-    role: "CTO, Noah Davis (From England)",
-    company: "",
+    name: "Noah Davis",
+    role: "CTO (From England)",
     quote: "Clean code, clear communication, and great results.",
-    video_url: "/media/testimonials/client-3.mp4",
-    poster_url: "/media/testimonials/client-3.jpg",
-    captions_vtt: "/media/testimonials/client-3.vtt",
-    duration_sec: 38,
+    imageUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20images/Noah%20Devis%20image.jpg",
+    audioUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20audios/Noah%20Devis%20Audio.mP3",
   },
   {
-    name: "Client 4",
-    role: "Product Lead, Isabella Garcia (From Canada)",
-    company: "",
+    name: "Isabella Garcia",
+    role: "Product Lead (From Canada)",
     quote: "A professional partner who truly understands UX.",
-    video_url: "/media/testimonials/client-4.mp4",
-    poster_url: "/media/testimonials/client-4.jpg",
-    captions_vtt: "/media/testimonials/client-4.vtt",
-    duration_sec: 47,
+    imageUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20images/Isabela%20Garcia%20image.jpg",
+    audioUrl: "https://bynqwtwyulrxgwjmkuqb.supabase.co/storage/v1/object/public/testimonials%20audios/Isabella%20Garcia%20Audio.mp3",
   },
 ];
 
 const TestimonialsSection = () => {
   const sectionRef = useRef<HTMLElement>(null);
+  const [playingAudio, setPlayingAudio] = useState<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
 
-    // Section fade in animation
-    gsap.fromTo(
-      section,
-      { opacity: 0, y: 50 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 1,
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
+    // GSAP Animations
+    gsap.fromTo(section, { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1, scrollTrigger: { trigger: section, start: "top 80%", toggleActions: "play none none reverse" } });
+    gsap.fromTo(".testimonial-card", { y: 50, opacity: 0, scale: 0.9 }, { y: 0, opacity: 1, scale: 1, duration: 0.5, stagger: 0.2, ease: "power2.out", scrollTrigger: { trigger: ".testimonials-grid", start: "top 80%", toggleActions: "play none none reverse" } });
 
-    // Testimonial cards stagger animation
-    gsap.fromTo(
-      ".testimonial-card",
-      { y: 50, opacity: 0, scale: 0.9 },
-      {
-        y: 0,
-        opacity: 1,
-        scale: 1,
-        duration: 0.5,
-        stagger: 0.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".testimonials-grid",
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      }
-    );
-
-    // Hover animation for cards
     const testimonialCards = section.querySelectorAll(".testimonial-card");
-    testimonialCards.forEach((card) => {
-      card.addEventListener("mouseenter", () => {
-        gsap.to(card, { y: -5, scale: 1.03, duration: 0.3, ease: "power2.out" });
+
+    testimonialCards.forEach(card => {
+      gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: "power2.out" });
+      card.addEventListener("mouseenter", () => gsap.to(card, { y: -5, scale: 1.03, duration: 0.3, ease: "power2.out" }));
+      card.addEventListener("mouseleave", () => gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: "power2.out" }));
+
+      const button = card.querySelector<HTMLButtonElement>(".play-pause-btn");
+      const audio = card.querySelector<HTMLAudioElement>("audio");
+      const playIcon = card.querySelector<SVGElement>(".play-icon");
+      const pauseIcon = card.querySelector<SVGElement>(".pause-icon");
+
+      if (!button || !audio || !playIcon || !pauseIcon) return;
+
+      const toggleIcons = (showPlay) => {
+        playIcon.classList.toggle("hidden", !showPlay);
+        pauseIcon.classList.toggle("hidden", showPlay);
+      };
+
+      const handleClick = () => {
+        if (playingAudio === audio) {
+          audio.pause();
+          setPlayingAudio(null);
+        } else {
+          if (playingAudio) {
+            playingAudio.pause();
+          }
+          audio.play().catch(err => console.error("Audio play failed:", err));
+          setPlayingAudio(audio);
+        }
+      };
+
+      button.addEventListener("click", handleClick);
+      audio.addEventListener("play", () => toggleIcons(false));
+      audio.addEventListener("pause", () => toggleIcons(true));
+      audio.addEventListener("ended", () => {
+        audio.currentTime = 0;
+        setPlayingAudio(null);
+        toggleIcons(true);
       });
-      card.addEventListener("mouseleave", () => {
+
+      return () => {
+        button.removeEventListener("click", handleClick);
+      };
+    });
+
+    return () => {
+      if (playingAudio) {
+        playingAudio.pause();
+      }
+      testimonialCards.forEach(card => {
         gsap.to(card, { y: 0, scale: 1, duration: 0.3, ease: "power2.out" });
       });
-    });
-
-    // Video playback logic
-    const videos = section.querySelectorAll<HTMLVideoElement>(".testimonial-video");
-    videos.forEach((video) => {
-      video.addEventListener("play", () => {
-        videos.forEach((otherVideo) => {
-          if (otherVideo !== video) {
-            otherVideo.pause();
-          }
-        });
-      });
-    });
-  }, []);
+    };
+  }, [playingAudio]);
 
   const schema = {
     "@context": "https://schema.org",
@@ -132,15 +122,6 @@ const TestimonialsSection = () => {
       "reviewRating": {
         "@type": "Rating",
         "ratingValue": "5"
-      },
-      "video": {
-        "@type": "VideoObject",
-        "name": `Testimonial from ${testimonial.name}`,
-        "description": testimonial.quote,
-        "thumbnailUrl": testimonial.poster_url,
-        "contentUrl": testimonial.video_url,
-        "uploadDate": new Date().toISOString(),
-        "duration": `PT${testimonial.duration_sec}S`
       },
       "position": index + 1
     }))
@@ -164,28 +145,32 @@ const TestimonialsSection = () => {
         <div className="testimonials-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {testimonials.map((testimonial, index) => (
             <article key={index} className="testimonial-card bg-card border border-border rounded-xl shadow-lg overflow-hidden flex flex-col">
-              <div className="relative aspect-video">
-                <video
-                  className="testimonial-video w-full h-full object-cover"
-                  src={testimonial.video_url}
-                  poster={testimonial.poster_url}
-                  controls
-                  playsInline
-                  preload="metadata"
-                  muted={false}
-                  loop={false}
-                >
-                  <track
-                    src={testimonial.captions_vtt}
-                    kind="captions"
-                    srcLang="en"
-                    label="English"
-                  />
-                </video>
+              <div className="relative aspect-video group">
+                <img
+                  src={testimonial.imageUrl}
+                  alt={`Testimonial from ${testimonial.name}`}
+                  className="w-full h-full object-cover"
+                  width={1600}
+                  height={900}
+                />
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-300 flex items-center justify-center">
+                  <button
+                    className="play-pause-btn text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                    aria-label="Play/Pause audio"
+                  >
+                    <svg className="play-icon w-12 h-12" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd"></path>
+                    </svg>
+                    <svg className="pause-icon w-12 h-12 hidden" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 002 0V8a1 1 0 00-1-1zm4 0a1 1 0 00-1 1v4a1 1 0 002 0V8a1 1 0 00-1-1z" clipRule="evenodd"></path>
+                    </svg>
+                  </button>
+                </div>
+                <audio src={testimonial.audioUrl} preload="metadata"></audio>
               </div>
               <div className="testimonial-meta p-6 flex-grow">
                 <h3 className="font-bold text-lg text-foreground">{testimonial.name}</h3>
-                <p className="text-sm text-muted-foreground">{testimonial.role}{testimonial.company && `, ${testimonial.company}`}</p>
+                <p className="text-sm text-muted-foreground">{testimonial.role}</p>
                 {testimonial.quote && (
                   <blockquote className="testimonial-quote mt-4 text-sm italic border-l-4 border-primary pl-4">
                     {testimonial.quote}
